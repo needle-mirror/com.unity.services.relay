@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.0.1-pre.1] - 2021-08-24
+
+* Bug fixes.
+
 ## [1.0.0-pre.4] - 2021-08-16
 
 * Updates to latest version of Relay Service API

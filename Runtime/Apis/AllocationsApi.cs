@@ -120,7 +120,7 @@ namespace Unity.Services.Relay.Apis.Allocations
         public async Task<Response<Models.AllocateResponseBody>> CreateAllocationAsync(CreateAllocationRequest request,
             Configuration operationConfiguration = null)
         {
-            var statusCodeToTypeMap = new Dictionary<string, System.Type>() { { "15201", typeof(Models.AllocateResponseBody)   },{ "15400", typeof(Models.ErrorResponseBody)   },{ "15401", typeof(Models.ErrorResponseBody)   },{ "15403", typeof(Models.ErrorResponseBody)   },{ "15500", typeof(Models.ErrorResponseBody)   } };
+            var statusCodeToTypeMap = new Dictionary<string, System.Type>() { {"201", typeof(Models.AllocateResponseBody)   },{"400", typeof(Models.ErrorResponseBody)   },{"401", typeof(Models.ErrorResponseBody)   },{"403", typeof(Models.ErrorResponseBody)   },{"500", typeof(Models.ErrorResponseBody)   } };
             
             // Merge the operation/request level configuration with the client level configuration.
             var finalConfiguration = Configuration.MergeConfigurations(operationConfiguration, Configuration);
@@ -147,7 +147,7 @@ namespace Unity.Services.Relay.Apis.Allocations
         public async Task<Response<Models.JoinCodeResponseBody>> CreateJoincodeAsync(CreateJoincodeRequest request,
             Configuration operationConfiguration = null)
         {
-            var statusCodeToTypeMap = new Dictionary<string, System.Type>() { { "15200", typeof(Models.JoinCodeResponseBody)   },{ "15201", typeof(Models.JoinCodeResponseBody)   },{ "15400", typeof(Models.ErrorResponseBody)   },{ "15401", typeof(Models.ErrorResponseBody)   },{ "15403", typeof(Models.ErrorResponseBody)   },{ "15500", typeof(Models.ErrorResponseBody)   } };
+            var statusCodeToTypeMap = new Dictionary<string, System.Type>() { {"200", typeof(Models.JoinCodeResponseBody)   },{"201", typeof(Models.JoinCodeResponseBody)   },{"400", typeof(Models.ErrorResponseBody)   },{"401", typeof(Models.ErrorResponseBody)   },{"403", typeof(Models.ErrorResponseBody)   },{"500", typeof(Models.ErrorResponseBody)   } };
             
             // Merge the operation/request level configuration with the client level configuration.
             var finalConfiguration = Configuration.MergeConfigurations(operationConfiguration, Configuration);
@@ -174,7 +174,7 @@ namespace Unity.Services.Relay.Apis.Allocations
         public async Task<Response<Models.JoinResponseBody>> JoinRelayAsync(JoinRelayRequest request,
             Configuration operationConfiguration = null)
         {
-            var statusCodeToTypeMap = new Dictionary<string, System.Type>() { { "15200", typeof(Models.JoinResponseBody)   },{ "15400", typeof(Models.ErrorResponseBody)   },{ "15401", typeof(Models.ErrorResponseBody)   },{ "15403", typeof(Models.ErrorResponseBody)   },{ "15404", typeof(Models.ErrorResponseBody)   },{ "15500", typeof(Models.ErrorResponseBody)   } };
+            var statusCodeToTypeMap = new Dictionary<string, System.Type>() { {"200", typeof(Models.JoinResponseBody)   },{"400", typeof(Models.ErrorResponseBody)   },{"401", typeof(Models.ErrorResponseBody)   },{"403", typeof(Models.ErrorResponseBody)   },{"404", typeof(Models.ErrorResponseBody)   },{"500", typeof(Models.ErrorResponseBody)   } };
             
             // Merge the operation/request level configuration with the client level configuration.
             var finalConfiguration = Configuration.MergeConfigurations(operationConfiguration, Configuration);
@@ -201,7 +201,7 @@ namespace Unity.Services.Relay.Apis.Allocations
         public async Task<Response<Models.RegionsResponseBody>> ListRegionsAsync(ListRegionsRequest request,
             Configuration operationConfiguration = null)
         {
-            var statusCodeToTypeMap = new Dictionary<string, System.Type>() { { "15200", typeof(Models.RegionsResponseBody)   },{ "15400", typeof(Models.ErrorResponseBody)   },{ "15401", typeof(Models.ErrorResponseBody)   },{ "15403", typeof(Models.ErrorResponseBody)   },{ "15500", typeof(Models.ErrorResponseBody)   } };
+            var statusCodeToTypeMap = new Dictionary<string, System.Type>() { {"200", typeof(Models.RegionsResponseBody)   },{"400", typeof(Models.ErrorResponseBody)   },{"401", typeof(Models.ErrorResponseBody)   },{"403", typeof(Models.ErrorResponseBody)   },{"500", typeof(Models.ErrorResponseBody)   } };
             
             // Merge the operation/request level configuration with the client level configuration.
             var finalConfiguration = Configuration.MergeConfigurations(operationConfiguration, Configuration);
