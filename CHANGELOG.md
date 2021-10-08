@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.0.1-pre.2] - 2021-10-08
+
+* Adding Get Regions to SimpleRelay sample.
+* Updated LICENSE.md with new license disclaimer. 
+* Added handling for invalid request schema code (15001).
+* SimpleRelay sample now discoverable from UPM.
+* Configuration.SetBasePath now publically accessible via WrappedRelayService.
+* Updates to latest version of Relay Service API
+* Updated README.
+
 ## [1.0.1-pre.1] - 2021-08-24
 
 * Bug fixes.

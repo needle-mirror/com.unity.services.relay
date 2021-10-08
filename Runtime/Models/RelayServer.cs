@@ -21,7 +21,7 @@ using Unity.Services.Relay.Http;
 namespace Unity.Services.Relay.Models
 {
     /// <summary>
-    /// Deprecated: IPv4 connection details for a relay server. The network protocol (currently supported options are tcp and udp) required by this IP/Port is determined by the relay server configuration and is not indicated here. Prefer the \&quot;relay server endpoint\&quot; collection to see IP/Port combinations with the network protocol required.
+    /// Deprecated: IPv4 connection details for a relay server. The network protocol (currently supported option is udp) required by this IP/Port is determined by the relay server configuration and is not indicated here. Prefer the \&quot;relay server endpoint\&quot; collection to see IP/Port combinations with the network protocol required.
     /// <param name="ipV4">IP (v4) address of the relay server</param>
     /// <param name="port">Port of the relay server</param>
     /// </summary>
@@ -31,7 +31,7 @@ namespace Unity.Services.Relay.Models
     public class RelayServer
     {
         /// <summary>
-        /// Deprecated: IPv4 connection details for a relay server. The network protocol (currently supported options are tcp and udp) required by this IP/Port is determined by the relay server configuration and is not indicated here. Prefer the \&quot;relay server endpoint\&quot; collection to see IP/Port combinations with the network protocol required.
+        /// Deprecated: IPv4 connection details for a relay server. The network protocol (currently supported option is udp) required by this IP/Port is determined by the relay server configuration and is not indicated here. Prefer the \&quot;relay server endpoint\&quot; collection to see IP/Port combinations with the network protocol required.
         /// </summary>
         /// <param name="ipV4">IP (v4) address of the relay server</param>
         /// <param name="port">Port of the relay server</param>

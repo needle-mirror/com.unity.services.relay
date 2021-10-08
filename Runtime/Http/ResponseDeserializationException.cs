@@ -28,12 +28,12 @@ namespace Unity.Services.Relay.Http
         }
 
         ///<inheritdoc cref="Exception"/>
-        public ResponseDeserializationException(string message) : base(message)
+        public ResponseDeserializationException(string message) : base (message)
         {
         }
 
         ///<inheritdoc cref="Exception"/>
-        ResponseDeserializationException(string message, Exception inner) : base(message, inner)
+        ResponseDeserializationException(Exception inner, string message) : base(message, inner)
         {
         }
 
@@ -52,6 +52,15 @@ namespace Unity.Services.Relay.Http
             message)
         {
             response = httpClientResponse;
+        }
+
+        /// <summary>Constructor</summary>
+        /// <param name="httpClientResponse">The response that triggered the exception.</param>
+        /// <param name="message">Custom error message</param>
+        public ResponseDeserializationException(HttpClientResponse httpClientResponse, Exception inner, string message) : base(
+            message, inner)
+        {
+            this.response = httpClientResponse;
         }
     }
 }

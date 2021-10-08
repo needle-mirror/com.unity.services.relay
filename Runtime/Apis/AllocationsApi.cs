@@ -120,7 +120,7 @@ namespace Unity.Services.Relay.Apis.Allocations
         public async Task<Response<Models.AllocateResponseBody>> CreateAllocationAsync(CreateAllocationRequest request,
             Configuration operationConfiguration = null)
         {
-            var statusCodeToTypeMap = new Dictionary<string, System.Type>() { {"201", typeof(Models.AllocateResponseBody)   },{"400", typeof(Models.ErrorResponseBody)   },{"401", typeof(Models.ErrorResponseBody)   },{"403", typeof(Models.ErrorResponseBody)   },{"500", typeof(Models.ErrorResponseBody)   } };
+            var statusCodeToTypeMap = new Dictionary<string, System.Type>() { {"201", typeof(Models.AllocateResponseBody)   },{"400", typeof(Models.ErrorResponseBody)   },{"401", typeof(Models.ErrorResponseBody)   },{"403", typeof(Models.ErrorResponseBody)   },{"500", typeof(Models.ErrorResponseBody)   },{"503", typeof(Models.ErrorResponseBody)   } };
             
             // Merge the operation/request level configuration with the client level configuration.
             var finalConfiguration = Configuration.MergeConfigurations(operationConfiguration, Configuration);

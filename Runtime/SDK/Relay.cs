@@ -15,11 +15,6 @@ namespace Unity.Services.Relay
 
         private static readonly Configuration configuration;
 
-        internal static void SetBasePath(string basePath)
-        {
-            configuration.BasePath = basePath;
-        }
-
         static Relay()
         {
             configuration = new Configuration("https://relay-allocations.cloud.unity3d.com", 10, 4, null);

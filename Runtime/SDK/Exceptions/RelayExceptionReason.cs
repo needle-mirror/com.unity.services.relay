@@ -5,11 +5,18 @@ namespace Unity.Services.Relay
     /// </summary>
     public enum RelayExceptionReason
     {
+        /// <summary>
+        /// Start of the range of error codes addressable by the Relay Allocations Service.
+        /// </summary>
         Min = 15000,
         /// <summary>
         /// Default value of the enum. No error detected.
         /// </summary>
         NoError = 15000,
+        /// <summary>
+        /// InvalidRequest is returned when the request is not in a valid format.
+        /// </summary>
+        InvalidRequest = 15001,
         /// <summary>
         /// InactiveProject is returned when the Unity project is inactive or not found.
         /// Make sure it is active and assigned to your project and you enabled the Relay Service using the Unity Dashboard for that project.
@@ -202,6 +209,9 @@ namespace Unity.Services.Relay
         /// Unknown is returned when a unrecognized error code is returned by the service. Check the inner exception to get more information.
         /// </summary>
         Unknown = 15999,
+        /// <summary>
+        /// End of the range of error codes addressable by the Relay Allocations Service.
+        /// </summary>
         Max = 15999
     }
 }

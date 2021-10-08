@@ -22,7 +22,7 @@ namespace Unity.Services.Relay.Http
     /// hide internal Json implementation details.
     /// </summary>
     [Preserve]
-    public class JsonObject
+    internal class JsonObject
     {
         /// <summary>
         /// Constructor sets object as the internal object.

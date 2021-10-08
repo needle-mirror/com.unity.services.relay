@@ -16,7 +16,7 @@ namespace Unity.Services.Relay.Http
     /// DeserializationException class.
     /// </summary>
     [Serializable]
-    public class DeserializationException : Exception
+    internal class DeserializationException : Exception
     {
         /// <summary>Default Constructor.</summary>
         public DeserializationException() : base()

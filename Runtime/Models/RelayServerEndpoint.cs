@@ -22,8 +22,8 @@ namespace Unity.Services.Relay.Models
 {
     /// <summary>
     /// Endpoint connection details for a relay server
-    /// <param name="connectionType">Canonical connection type</param>
-    /// <param name="network">IP network (udp, tcp)</param>
+    /// <param name="connectionType">Canonical connection type: - udp: for plain udp connection - dtls: for secured udp connection</param>
+    /// <param name="network">IP network (currently supported option is udp)</param>
     /// <param name="reliable">Is the delivery of data guaranteed</param>
     /// <param name="secure">Is the endpoint secured</param>
     /// <param name="host">Host name or address of the relay server</param>
@@ -37,8 +37,8 @@ namespace Unity.Services.Relay.Models
         /// <summary>
         /// Endpoint connection details for a relay server
         /// </summary>
-        /// <param name="connectionType">Canonical connection type</param>
-        /// <param name="network">IP network (udp, tcp)</param>
+        /// <param name="connectionType">Canonical connection type: - udp: for plain udp connection - dtls: for secured udp connection</param>
+        /// <param name="network">IP network (currently supported option is udp)</param>
         /// <param name="reliable">Is the delivery of data guaranteed</param>
         /// <param name="secure">Is the endpoint secured</param>
         /// <param name="host">Host name or address of the relay server</param>
@@ -55,13 +55,13 @@ namespace Unity.Services.Relay.Models
         }
 
         /// <summary>
-        /// Canonical connection type
+        /// Canonical connection type: - udp: for plain udp connection - dtls: for secured udp connection
         /// </summary>
         [Preserve]
         [DataMember(Name = "connectionType", IsRequired = true, EmitDefaultValue = true)]
         public string ConnectionType{ get; }
         /// <summary>
-        /// IP network (udp, tcp)
+        /// IP network (currently supported option is udp)
         /// </summary>
         [Preserve]
         [JsonConverter(typeof(StringEnumConverter))]
@@ -94,9 +94,9 @@ namespace Unity.Services.Relay.Models
     
 
         /// <summary>
-        /// IP network (udp, tcp)
+        /// IP network (currently supported option is udp)
         /// </summary>
-        /// <value>IP network (udp, tcp)</value>
+        /// <value>IP network (currently supported option is udp)</value>
         [Preserve]
         [JsonConverter(typeof(StringEnumConverter))]
         public enum NetworkOptions

@@ -12,7 +12,7 @@ namespace Unity.Services.Relay
     /// <summary>
     /// The Allocations Service enables clients to connect to relay servers. Once connected, they are able to communicate with each other, via the relay servers, using the bespoke relay binary protocol.
     /// </summary>
-    internal class WrappedRelayService : IRelayServiceSDK
+    internal class WrappedRelayService : IRelayServiceSDK, IRelayServiceSDKConfiguration
     {
         internal IAllocationsApiClient m_AllocationsApiClient { get; set; }
 
@@ -153,6 +153,11 @@ namespace Unity.Services.Relay
 
                 throw new RequestFailedException((int)RelayExceptionReason.Unknown, "Something went wrong.", e);
             }
+        }
+
+        public void SetBasePath(string basePath)
+        {
+            this.m_Configuration.BasePath = basePath;
         }
 
         private void EnsureSignedIn()

@@ -111,11 +111,11 @@ namespace Unity.Services.Relay.Http
             }
             catch (ArgumentException e)
             {
-                throw new ResponseDeserializationException(response, e.Message);
+                throw new ResponseDeserializationException(response, e, e.Message);
             }
-            catch (MissingFieldException)
+            catch (MissingFieldException e)
             {
-                throw new ResponseDeserializationException(response,
+                throw new ResponseDeserializationException(response, e,
                     "Discriminator field not found in the parsed json response.");
             }
             catch (ResponseDeserializationException e)
@@ -126,9 +126,9 @@ namespace Unity.Services.Relay.Http
                 }
                 throw;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw new ResponseDeserializationException(response);
+                throw new ResponseDeserializationException(response, e, e.Message);
             }
         }
 
@@ -152,11 +152,11 @@ namespace Unity.Services.Relay.Http
             }
             catch (ArgumentException e)
             {
-                throw new ResponseDeserializationException(response, e.Message);
+                throw new ResponseDeserializationException(response, e, e.Message);
             }
-            catch (MissingFieldException)
+            catch (MissingFieldException e)
             {
-                throw new ResponseDeserializationException(response,
+                throw new ResponseDeserializationException(response, e,
                     "Discriminator field not found in the parsed json response.");
             }
             catch (ResponseDeserializationException e)
@@ -167,9 +167,9 @@ namespace Unity.Services.Relay.Http
                 }
                 throw;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw new ResponseDeserializationException(response);
+                throw new ResponseDeserializationException(response, e, e.Message);
             }
         }
 
@@ -197,9 +197,9 @@ namespace Unity.Services.Relay.Http
             {
                 throw new ResponseDeserializationException(response, e.Message);
             }
-            catch (MissingFieldException)
+            catch (MissingFieldException e)
             {
-                throw new ResponseDeserializationException(response,
+                throw new ResponseDeserializationException(response, e,
                     "Discriminator field not found in the parsed json response.");
             }
             catch (ResponseDeserializationException e)
@@ -210,9 +210,9 @@ namespace Unity.Services.Relay.Http
                 }
                 throw;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw new ResponseDeserializationException(response);
+                throw new ResponseDeserializationException(response, e, e.Message);
             }
         }
     }
