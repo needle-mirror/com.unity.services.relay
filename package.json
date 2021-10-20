@@ -1,7 +1,7 @@
 {
   "name": "com.unity.services.relay",
-  "displayName": "Relay Allocations",
-  "version": "1.0.1-pre.2",
+  "displayName": "Relay",
+  "version": "1.0.1-pre.3",
   "unity": "2020.3",
   "description": "Connect the players of your peer-hosted games with Relay. Your games will also benefit from improved reliability, privacy and the ability to communicate across platforms. To get started, enable listen-server UDP networking for your project on the Unity Dashboard.\n\nFeatures include an allocation service to join game hosts via code, multi-region support, and more.",
   "dependencies": {
@@ -23,14 +23,14 @@
     }
   ],
   "relatedPackages": {
-    "com.unity.services.relay.tests": "1.0.1-pre.2"
+    "com.unity.services.relay.tests": "1.0.1-pre.3"
   },
   "upmCi": {
-    "footprint": "117d0c2d7414ba2f9a1463b27dc83225ddc76a81"
+    "footprint": "869c5db4b70de1466c7dd11e1ceaef5827dd6219"
   },
   "repository": {
     "url": "https://github.cds.internal.unity3d.com/unity/com.unity.services.relay.git",
     "type": "git",
-    "revision": "120d0e221642f0d47616164118057f7bb00b99c8"
+    "revision": "1592f435e478ba4d80f187927f2456fc30ee3a0c"
   }
 }

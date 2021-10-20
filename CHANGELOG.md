@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.0.1-pre.3] - 2021-10-20
+
+* Renamed Package Display Name from "Relay Allocations" to "Relay".
+
 ## [1.0.1-pre.2] - 2021-10-08
 
 * Adding Get Regions to SimpleRelay sample.
