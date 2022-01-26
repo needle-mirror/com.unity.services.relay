@@ -28,6 +28,7 @@ namespace Unity.Services.Relay.Models
     /// <param name="key">Base64-encoded key required for the HMAC signature of the BIND message</param>
     /// <param name="connectionData">Base64 encoded representation of an encrypted connection data blob describing this allocation. Required for establishing communication with other players.</param>
     /// <param name="allocationIdBytes">Base64 encoded form of AllocationID. When decoded, this is the exact expected byte alignment to be used when crafting relay protocol messages that require AllocationID. eg. PING, CONNECT, RELAY, CLOSE, etc.</param>
+    /// <param name="region">the allocation region</param>
     /// <param name="hostConnectionData">Base64 encoded representation of an encrypted connection data blob describing the allocation and relay server of the player who created the join code. Used for establishing communication with the host.</param>
     /// </summary>
 
@@ -44,9 +45,10 @@ namespace Unity.Services.Relay.Models
         /// <param name="key">Base64-encoded key required for the HMAC signature of the BIND message</param>
         /// <param name="connectionData">Base64 encoded representation of an encrypted connection data blob describing this allocation. Required for establishing communication with other players.</param>
         /// <param name="allocationIdBytes">Base64 encoded form of AllocationID. When decoded, this is the exact expected byte alignment to be used when crafting relay protocol messages that require AllocationID. eg. PING, CONNECT, RELAY, CLOSE, etc.</param>
+        /// <param name="region">the allocation region</param>
         /// <param name="hostConnectionData">Base64 encoded representation of an encrypted connection data blob describing the allocation and relay server of the player who created the join code. Used for establishing communication with the host.</param>
         [Preserve]
-        public JoinAllocation(System.Guid allocationId, List<RelayServerEndpoint> serverEndpoints, RelayServer relayServer, byte[] key, byte[] connectionData, byte[] allocationIdBytes, byte[] hostConnectionData)
+        public JoinAllocation(System.Guid allocationId, List<RelayServerEndpoint> serverEndpoints, RelayServer relayServer, byte[] key, byte[] connectionData, byte[] allocationIdBytes, string region, byte[] hostConnectionData)
         {
             AllocationId = allocationId;
             ServerEndpoints = serverEndpoints;
@@ -54,6 +56,7 @@ namespace Unity.Services.Relay.Models
             Key = key;
             ConnectionData = connectionData;
             AllocationIdBytes = allocationIdBytes;
+            Region = region;
             HostConnectionData = hostConnectionData;
         }
 
@@ -93,6 +96,12 @@ namespace Unity.Services.Relay.Models
         [Preserve]
         [DataMember(Name = "allocationIdBytes", IsRequired = true, EmitDefaultValue = true)]
         public byte[] AllocationIdBytes{ get; }
+        /// <summary>
+        /// the allocation region
+        /// </summary>
+        [Preserve]
+        [DataMember(Name = "region", IsRequired = true, EmitDefaultValue = true)]
+        public string Region{ get; }
         /// <summary>
         /// Base64 encoded representation of an encrypted connection data blob describing the allocation and relay server of the player who created the join code. Used for establishing communication with the host.
         /// </summary>

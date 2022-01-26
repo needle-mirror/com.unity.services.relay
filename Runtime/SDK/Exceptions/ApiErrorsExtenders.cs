@@ -29,9 +29,14 @@ namespace Unity.Services.Relay
         {
             RelayExceptionReason reason = RelayExceptionReason.Unknown;
 
-            if (error.IsHttpError && Enum.IsDefined(typeof(RelayExceptionReason), (int)error.StatusCode))
+            if (error.IsHttpError)
             {
-                reason = (RelayExceptionReason)error.StatusCode;
+                //As we know it's a http error (error range 0-1000), we bump it to our mapped range
+                int mappedCode = (int)error.StatusCode + (int)RelayExceptionReason.Min;
+                if (Enum.IsDefined(typeof(RelayExceptionReason), mappedCode)) 
+                {
+                    reason = (RelayExceptionReason)mappedCode;
+                }
             }
             else if (error.IsNetworkError)
             {

@@ -22,7 +22,7 @@ namespace Unity.Services.Relay.Models
 {
     /// <summary>
     /// A request to join a relay using a join code
-    /// <param name="joinCode">The join code is used to lookup the connection data for the player responsible for creating it. It is case-insensitive.  The connection data is returned to the caller and can be used in the request to the \&quot;join\&quot; endpoint to join a relay server.</param>
+    /// <param name="joinCode">The join code is used to lookup the connection data for the player responsible for creating it. It is case-insensitive, spans six to twelve characters and is composed only of characters that are in &#39;6789BCDFGHJKLMNPQRTW&#39;.  The connection data is returned to the caller and can be used in the request to the \&quot;join\&quot; endpoint to join a relay server.</param>
     /// </summary>
 
     [Preserve]
@@ -32,7 +32,7 @@ namespace Unity.Services.Relay.Models
         /// <summary>
         /// A request to join a relay using a join code
         /// </summary>
-        /// <param name="joinCode">The join code is used to lookup the connection data for the player responsible for creating it. It is case-insensitive.  The connection data is returned to the caller and can be used in the request to the \&quot;join\&quot; endpoint to join a relay server.</param>
+        /// <param name="joinCode">The join code is used to lookup the connection data for the player responsible for creating it. It is case-insensitive, spans six to twelve characters and is composed only of characters that are in &#39;6789BCDFGHJKLMNPQRTW&#39;.  The connection data is returned to the caller and can be used in the request to the \&quot;join\&quot; endpoint to join a relay server.</param>
         [Preserve]
         public JoinRequest(string joinCode)
         {
@@ -40,7 +40,7 @@ namespace Unity.Services.Relay.Models
         }
 
         /// <summary>
-        /// The join code is used to lookup the connection data for the player responsible for creating it. It is case-insensitive.  The connection data is returned to the caller and can be used in the request to the \&quot;join\&quot; endpoint to join a relay server.
+        /// The join code is used to lookup the connection data for the player responsible for creating it. It is case-insensitive, spans six to twelve characters and is composed only of characters that are in &#39;6789BCDFGHJKLMNPQRTW&#39;.  The connection data is returned to the caller and can be used in the request to the \&quot;join\&quot; endpoint to join a relay server.
         /// </summary>
         [Preserve]
         [DataMember(Name = "joinCode", IsRequired = true, EmitDefaultValue = true)]

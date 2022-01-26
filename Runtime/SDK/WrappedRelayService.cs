@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Relay.Apis.Allocations;
 using Unity.Services.Relay.Http;
 using Unity.Services.Relay.Models;
+using UnityEngine;
 
 namespace Unity.Services.Relay
 {
@@ -16,25 +18,53 @@ namespace Unity.Services.Relay
     {
         internal IAllocationsApiClient m_AllocationsApiClient { get; set; }
 
-        internal Configuration m_Configuration;
+        internal IQosService m_qosService;
 
+        internal Configuration m_allocationsConfiguration;
+        
         private readonly IAuthenticationService m_AuthenticationService;
 
-        internal WrappedRelayService(IAllocationsApiClient allocationsApiClient, Configuration configuration, IAuthenticationService authenticationService = null)
+        internal WrappedRelayService(IAllocationsApiClient allocationsApiClient, Configuration allocationsConfig, IQosService qosService = null, IAuthenticationService authenticationService = null)
         {
             m_AllocationsApiClient = allocationsApiClient;
-            m_Configuration = configuration;
+            m_allocationsConfiguration = allocationsConfig;
+
+            m_qosService = qosService;
             m_AuthenticationService = authenticationService == null ? AuthenticationService.Instance : authenticationService;
         }
 
         /// <inheritdoc/>
+        /// <exception cref="ArgumentException">Thrown when the maxConnections argument fails validation in SDK.</exception>
         public async Task<Allocation> CreateAllocationAsync(int maxConnections, string region = null)
         {
             EnsureSignedIn();
 
+            if (maxConnections <= 0) 
+            {
+                throw new ArgumentException("Maximum number of connections for an allocation must be greater than 0!");
+            }
+
+            if (m_qosService != null && string.IsNullOrEmpty(region))
+            {
+                try
+                {
+                    var regions = await ListRegionsAsync();
+                    var orderedRegions = await m_qosService.OrderRegionsByQoSAsync(regions);
+                    if (orderedRegions != null && orderedRegions.Any())
+                    {
+                        Debug.Log("best region is " + orderedRegions[0].Id);
+                        region = orderedRegions[0].Id;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("could not do QoS region selection. Will use default.");
+                }
+            }
+
             try
             {
-                var response = await m_AllocationsApiClient.CreateAllocationAsync(new Allocations.CreateAllocationRequest(new AllocationRequest(maxConnections, region)), m_Configuration);
+                var response = await m_AllocationsApiClient.CreateAllocationAsync(new Allocations.CreateAllocationRequest(new AllocationRequest(maxConnections, region)), m_allocationsConfiguration);
 
                 return response.Result.Data.Allocation;
             }
@@ -61,13 +91,19 @@ namespace Unity.Services.Relay
         /// <inheritdoc/>
         /// <exception cref="RelayServiceException">Thrown when the request successfully reach the Relay Allocation Service but results in an errorr.</exception>
         /// <exception cref="RequestFailedException">Thrown when the request does not reach the Relay Allocation Service.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the allocationId argument fails validation in SDK.</exception>
         public async Task<string> GetJoinCodeAsync(Guid allocationId)
         {
             EnsureSignedIn();
 
+            if (allocationId == null || allocationId == Guid.Empty) 
+            {
+                throw new ArgumentNullException("AllocationId cannot be null or empty!");
+            }
+
             try
             {
-                var response = await m_AllocationsApiClient.CreateJoincodeAsync(new Allocations.CreateJoincodeRequest(new JoinCodeRequest(allocationId)), m_Configuration);
+                var response = await m_AllocationsApiClient.CreateJoincodeAsync(new Allocations.CreateJoincodeRequest(new JoinCodeRequest(allocationId)), m_allocationsConfiguration);
                 return response.Result.Data.JoinCode;
             }
             catch (HttpException<ErrorResponseBody> e)
@@ -93,12 +129,19 @@ namespace Unity.Services.Relay
         /// <inheritdoc/>
         /// <exception cref="RelayServiceException">Thrown when the request successfully reach the Relay Allocation Service but results in an error.</exception>
         /// <exception cref="RequestFailedException">Thrown when the request does not reach the Relay Allocation Service.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the joinCode argument fails validation in SDK.</exception>
         public async Task<JoinAllocation> JoinAllocationAsync(string joinCode)
         {
             EnsureSignedIn();
+
+            if (string.IsNullOrWhiteSpace(joinCode)) 
+            {
+                throw new ArgumentNullException("JoinCode must be non-null, non-empty, and cannot contain only whitespace!");
+            }
+
             try
             {
-                var response = await m_AllocationsApiClient.JoinRelayAsync(new Allocations.JoinRelayRequest(new JoinRequest(joinCode)), m_Configuration);
+                var response = await m_AllocationsApiClient.JoinRelayAsync(new Allocations.JoinRelayRequest(new JoinRequest(joinCode)), m_allocationsConfiguration);
 
                 return response.Result.Data.Allocation;
             }
@@ -131,7 +174,7 @@ namespace Unity.Services.Relay
 
             try
             {
-                var response = await m_AllocationsApiClient.ListRegionsAsync(new Allocations.ListRegionsRequest(), m_Configuration);
+                var response = await m_AllocationsApiClient.ListRegionsAsync(new Allocations.ListRegionsRequest(), m_allocationsConfiguration);
 
                 return response.Result.Data.Regions;
             }
@@ -155,11 +198,11 @@ namespace Unity.Services.Relay
             }
         }
 
-        public void SetBasePath(string basePath)
+        public void SetAllocationsServiceBasePath(string allocationsBasePath)
         {
-            this.m_Configuration.BasePath = basePath;
+            this.m_allocationsConfiguration.BasePath = allocationsBasePath;
         }
-
+        
         private void EnsureSignedIn()
         {
             if (!m_AuthenticationService.IsSignedIn)

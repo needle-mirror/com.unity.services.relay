@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1-pre.4] - 2022-01-26
+
+* update core and authentication dependencies
+* update transport (UTP) dependency
+* Add QoS as default region-selection behaviour when `com.unity.ucg.qos` package is present.
+* Add _upm field
+
 ## [1.0.1-pre.3] - 2021-10-20
 
 * Renamed Package Display Name from "Relay Allocations" to "Relay".

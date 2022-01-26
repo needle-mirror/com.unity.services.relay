@@ -43,6 +43,7 @@ public class SimpleRelay : MonoBehaviour
 
     private Guid hostAllocationId;
     private Guid playerAllocationId;
+    private string allocationRegion = "";
     private string joinCode = "n/a";
     private string playerId = "Not signed in";
     private List<Region> regions = new List<Region>();
@@ -61,6 +62,17 @@ public class SimpleRelay : MonoBehaviour
         RegionsDropdown.interactable = regions.Count > 0;
         RegionsDropdown.options?.Clear();
         RegionsDropdown.AddOptions(regionOptions);
+        if (!String.IsNullOrEmpty(allocationRegion))
+        {
+            if (regionOptions.Count == 0)
+            {
+                RegionsDropdown.AddOptions(new List<String>(new[] { allocationRegion }));
+            }
+            else
+            {
+                RegionsDropdown.value = regionOptions.IndexOf(allocationRegion);
+            }
+        }
         HostAllocationIdText.text = hostAllocationId.ToString();
         JoinCodeText.text = joinCode;
         PlayerAllocationIdText.text = playerAllocationId.ToString();
@@ -106,8 +118,9 @@ public class SimpleRelay : MonoBehaviour
         // Important: Once the allocation is created, you have ten seconds to BIND
         Allocation allocation = await Relay.Instance.CreateAllocationAsync(4, regions.Count > 0 ? regions[RegionsDropdown.value].Id : null);
         hostAllocationId = allocation.AllocationId;
+        allocationRegion = allocation.Region;
 
-        Debug.Log("Host Allocation ID: " + hostAllocationId.ToString());
+        Debug.Log("Host Allocation ID: " + hostAllocationId.ToString() + ", region: " + allocationRegion);
 
         UpdateUI();
     }
