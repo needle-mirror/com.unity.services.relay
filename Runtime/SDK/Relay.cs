@@ -23,14 +23,14 @@ namespace Unity.Services.Relay
         static Relay()
         {
 #if AUTHENTICATION_TESTING_STAGING_UAS
-            allocationsApiConfiguration = new Configuration("https://relay-allocations-stg.cloud.unity3d.com", 10, 4, null);
+            allocationsApiConfiguration = new Configuration("https://relay-allocations-stg.services.api.unity.com", 10, 4, null);
 #if USE_QOS
             qosDiscoveryApiConfiguration = new Qos.Configuration("https://qos-discovery-stg.services.api.unity.com", 10, 4, null);
 #endif // USE_QOS
 #else // AUTHENTICATION_TESTING_STAGING_UAS
-            allocationsApiConfiguration = new Configuration("https://relay-allocations.cloud.unity3d.com", 10, 4, null);
+            allocationsApiConfiguration = new Configuration("https://relay-allocations.services.api.unity.com", 10, 4, null);
 #if USE_QOS
-            qosDiscoveryApiConfiguration = new Configuration("https://qos-discovery.services.api.unity.com", 10, 4, null);
+            qosDiscoveryApiConfiguration = new Qos.Configuration("https://qos-discovery.services.api.unity.com", 10, 4, null);
 #endif // USE_QOS
 #endif // AUTHENTICATION_TESTING_STAGING_UAS
         }

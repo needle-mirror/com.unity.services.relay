@@ -1,7 +1,7 @@
 {
   "name": "com.unity.services.relay",
   "displayName": "Relay",
-  "version": "1.0.1-pre.4",
+  "version": "1.0.1-pre.5",
   "unity": "2020.3",
   "_upm": {
     "gameService": {
@@ -36,14 +36,14 @@
     }
   ],
   "relatedPackages": {
-    "com.unity.services.relay.tests": "1.0.1-pre.4"
+    "com.unity.services.relay.tests": "1.0.1-pre.5"
   },
   "upmCi": {
-    "footprint": "0ddf85a2b366c2decd2df8f4f69718c46339fc00"
+    "footprint": "6d2f1ac0938a231258309ff7de140ef727571c84"
   },
   "repository": {
     "url": "https://github.cds.internal.unity3d.com/unity/com.unity.services.relay.git",
     "type": "git",
-    "revision": "5f180f49c2e97bff0b6375ef513c9a4eb8d29b9a"
+    "revision": "1fb281b6fa9e1adc813fbc3a7f42ed01d5f2714a"
   }
 }

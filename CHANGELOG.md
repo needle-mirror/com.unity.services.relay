@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.0.1-pre.5] - 2022-02-14
+
+* fixed a compilation error when using QoS
+
 ## [1.0.1-pre.4] - 2022-01-26
 
 * update core and authentication dependencies
