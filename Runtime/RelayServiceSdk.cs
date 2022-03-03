@@ -8,6 +8,7 @@
 //-----------------------------------------------------------------------------
 
 
+using Unity.Services.Authentication.Internal;
 using Unity.Services.Relay.Apis.Allocations;
 
 
@@ -16,16 +17,16 @@ namespace Unity.Services.Relay
     /// <summary>
     /// RelayService
     /// </summary>
-    internal static class RelayService
+    internal static class RelayServiceSdk
     {
         /// <summary>
         /// The static instance of RelayService.
         /// </summary>
-        public static IRelayService Instance { get; internal set; }
+        public static IRelayServiceSdk Instance { get; internal set; }
     }
 
     /// <summary> Interface for RelayService</summary>
-    internal interface IRelayService
+    internal interface IRelayServiceSdk
     {
         
         /// <summary> Accessor for AllocationsApi methods.</summary>
@@ -34,5 +35,15 @@ namespace Unity.Services.Relay
 
         /// <summary> Configuration properties for the service.</summary>
         Configuration Configuration { get; set; }
+
+        /// <summary>
+        /// Accessor for the access token used for the relay service.
+        /// </summary>
+        IAccessToken AccessToken { get; set; }
+
+        /// <summary>
+        /// Accessor for quality of service.
+        /// </summary>
+        IQosService QosService { get; set; }
     }
 }

@@ -182,7 +182,7 @@ public class RelayAllocUtp : MonoBehaviour
     private IEnumerator StartRelayServer()
     {
         // Request list of valid regions
-        var regionsTask = Relay.Instance.ListRegionsAsync();
+        var regionsTask = RelayService.Instance.ListRegionsAsync();
         Debug.Log("Getting regions...");
         while (!regionsTask.IsCompleted)
         {
@@ -204,7 +204,7 @@ public class RelayAllocUtp : MonoBehaviour
 
         // Request an allocation to the Relay service
         var relayMaxPlayers = 5;
-        var allocationTask = Relay.Instance.CreateAllocationAsync(relayMaxPlayers, targetRegion);
+        var allocationTask = RelayService.Instance.CreateAllocationAsync(relayMaxPlayers, targetRegion);
         Debug.Log("Attempting to get Relay service host allocation...");
 
         while (!allocationTask.IsCompleted)
@@ -238,7 +238,7 @@ public class RelayAllocUtp : MonoBehaviour
     private IEnumerator RequestJoinCode(Allocation allocation) 
     {
         // Request the join code to the Relay service
-        var joinCodeTask = Relay.Instance.GetJoinCodeAsync(allocation.AllocationId);
+        var joinCodeTask = RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
         Debug.Log("Attmepting to retrieve Join Code...");
 
         while (!joinCodeTask.IsCompleted)
@@ -294,7 +294,7 @@ public class RelayAllocUtp : MonoBehaviour
     private IEnumerator ClientBindAndConnect(string relayJoinCode)
     {
         // Send the join request to the Relay service
-        var joinTask = Relay.Instance.JoinAllocationAsync(relayJoinCode);
+        var joinTask = RelayService.Instance.JoinAllocationAsync(relayJoinCode);
         Debug.Log("Attempting to join allocation with join code...");
 
         while (!joinTask.IsCompleted)

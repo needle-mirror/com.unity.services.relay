@@ -8,7 +8,7 @@ namespace Unity.Services.Relay
     /// <summary>
     /// The Relay Allocations Service enables clients to connect to relay servers. Once connected, they are able to communicate with each other, via the relay servers, using the bespoke relay binary protocol.
     /// </summary>
-    public interface IRelayServiceSDK
+    public interface IRelayService
     {
         /// <summary>
         /// Creates an allocation on an available relay server.
@@ -51,5 +51,15 @@ namespace Unity.Services.Relay
         /// </summary>
         /// <returns>A list of regions where relay servers might be available.</returns>
         Task<List<Region>> ListRegionsAsync();
+    }
+
+    /// <summary>
+    /// This interface is marked for deprecation and may be removed in future versions. Please use IRelayService instead.
+    /// The Relay Allocations Service enables clients to connect to relay servers. Once connected, they are able to communicate with each other, via the relay servers, using the bespoke relay binary protocol.
+    /// </summary>
+    //[Obsolete("This interface is marked for deprecation and may be removed in future versions. Please use IRelayService instead.")]
+    public interface IRelayServiceSDK : IRelayService
+    {
+
     }
 }

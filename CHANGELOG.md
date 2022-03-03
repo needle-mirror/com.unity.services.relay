@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.1-pre.6] - 2022-03-03
+
+* removed Authentication package from dependencies
+* Replaced "Relay" and "IRelayServiceSDK", replaced with "RelayService" and "IRelayService"
+* Update com.unity.nuget.newtonsoft-json dependency to 3.0.1
+
 ## [1.0.1-pre.5] - 2022-02-14
 
 * fixed a compilation error when using QoS

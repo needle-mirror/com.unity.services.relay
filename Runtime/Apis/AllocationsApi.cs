@@ -83,9 +83,9 @@ namespace Unity.Services.Relay.Apis.Allocations
                 // global configuration to ensure we have the correct
                 // combination of headers and a base path (if it is set).
                 Configuration globalConfiguration = new Configuration("https://relay-allocations.services.api.unity.com", 10, 4, null);
-                if (RelayService.Instance != null)
+                if (RelayServiceSdk.Instance != null)
                 {
-                    globalConfiguration = RelayService.Instance.Configuration;
+                    globalConfiguration = RelayServiceSdk.Instance.Configuration;
                 }
                 return Configuration.MergeConfigurations(_configuration, globalConfiguration);
             }

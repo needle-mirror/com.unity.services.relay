@@ -38,10 +38,15 @@ namespace Unity.Services.Relay
 
             var accessTokenRelay = registry.GetServiceComponent<IAccessToken>();
 
+#if USE_QOS
+            IQosService qosService = new RelayQosService(QosDiscoveryService.Instance.QosDiscoveryApi, qosDiscoveryApiConfiguration, new MultiplayAdapterQosRunner());
+#else
+            IQosService qosService = null;
+#endif
+
             if (accessTokenRelay != null)
             {
-                RelayService.Instance =
-                    new InternalRelayService(httpClient, registry.GetServiceComponent<IAccessToken>());
+                RelayServiceSdk.Instance = new InternalRelayService(httpClient, registry.GetServiceComponent<IAccessToken>(), qosService);
             }
 
             return Task.CompletedTask;
@@ -51,25 +56,28 @@ namespace Unity.Services.Relay
     /// <summary>
     /// InternalRelayService
     /// </summary>
-    internal class InternalRelayService : IRelayService
+    internal class InternalRelayService : IRelayServiceSdk
     {
-        /// <summary>
-        /// Constructor for InternalRelayService
-        /// </summary>
-        /// <param name="httpClient">The HttpClient for InternalRelayService.</param>
-        /// <param name="accessToken">The Authentication token for the service.</param>
-        public InternalRelayService(HttpClient httpClient, IAccessToken accessToken = null)
-        {
-            
-            AllocationsApi = new AllocationsApiClient(httpClient, accessToken);
-            
-            Configuration = new Configuration("https://relay-allocations.services.api.unity.com", 10, 4, null);
-        }
-        
         /// <summary> Instance of IAllocationsApiClient interface</summary>
         public IAllocationsApiClient AllocationsApi { get; set; }
         
         /// <summary> Configuration properties for the service.</summary>
         public Configuration Configuration { get; set; }
+        public IAccessToken AccessToken { get; set; }
+        public IQosService QosService { get; set; }
+
+        /// <summary>
+        /// Constructor for InternalRelayService
+        /// </summary>
+        /// <param name="httpClient">The HttpClient for InternalRelayService.</param>
+        /// <param name="accessToken">The Authentication token for the service.</param>
+        public InternalRelayService(HttpClient httpClient, IAccessToken accessToken = null, IQosService qosService = null)
+        {
+
+            AllocationsApi = new AllocationsApiClient(httpClient, accessToken);
+            Configuration = new Configuration("https://relay-allocations.services.api.unity.com", 10, 4, null);
+            AccessToken = accessToken;
+            QosService = qosService;
+        }
     }
 }

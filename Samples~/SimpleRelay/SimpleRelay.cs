@@ -97,7 +97,7 @@ public class SimpleRelay : MonoBehaviour
     public async void OnRegion()
     {
         Debug.Log("Host - Getting regions.");
-        var allRegions = await Relay.Instance.ListRegionsAsync();
+        var allRegions = await RelayService.Instance.ListRegionsAsync();
         regions.Clear();
         foreach (var region in allRegions)
         {
@@ -116,7 +116,7 @@ public class SimpleRelay : MonoBehaviour
         Debug.Log("Host - Creating an allocation.");
 
         // Important: Once the allocation is created, you have ten seconds to BIND
-        Allocation allocation = await Relay.Instance.CreateAllocationAsync(4, regions.Count > 0 ? regions[RegionsDropdown.value].Id : null);
+        Allocation allocation = await RelayService.Instance.CreateAllocationAsync(4, regions.Count > 0 ? regions[RegionsDropdown.value].Id : null);
         hostAllocationId = allocation.AllocationId;
         allocationRegion = allocation.Region;
 
@@ -134,7 +134,7 @@ public class SimpleRelay : MonoBehaviour
 
         try
         {
-            joinCode = await Relay.Instance.GetJoinCodeAsync(hostAllocationId);
+            joinCode = await RelayService.Instance.GetJoinCodeAsync(hostAllocationId);
             Debug.Log("Host - Got join code: " + joinCode);
         }
         catch (RelayServiceException ex)
@@ -154,7 +154,7 @@ public class SimpleRelay : MonoBehaviour
 
         try
         {
-            var joinAllocation = await Relay.Instance.JoinAllocationAsync(joinCode);
+            var joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
             playerAllocationId = joinAllocation.AllocationId;
             Debug.Log("Client Allocation ID: " + playerAllocationId.ToString());
         }
