@@ -1,9 +1,5 @@
 using System;
 using System.Runtime.CompilerServices;
-using Unity.Services.Authentication.Internal;
-#if USE_QOS
-using Unity.Services.Relay.Qos;
-#endif
 
 [assembly: InternalsVisibleTo("Unity.Services.Relay.Tests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
@@ -17,27 +13,6 @@ namespace Unity.Services.Relay
     {
         private static IRelayService service;
         
-        private static readonly Configuration allocationsApiConfiguration;
-
-#if USE_QOS
-        private static readonly Qos.Configuration qosDiscoveryApiConfiguration;
-#endif
-
-        static RelayService()
-        {
-#if AUTHENTICATION_TESTING_STAGING_UAS
-            allocationsApiConfiguration = new Configuration("https://relay-allocations-stg.services.api.unity.com", 10, 4, null);
-#if USE_QOS
-            qosDiscoveryApiConfiguration = new Qos.Configuration("https://qos-discovery-stg.services.api.unity.com", 10, 4, null);
-#endif // USE_QOS
-#else // AUTHENTICATION_TESTING_STAGING_UAS
-            allocationsApiConfiguration = new Configuration("https://relay-allocations.services.api.unity.com", 10, 4, null);
-#if USE_QOS
-            qosDiscoveryApiConfiguration = new Qos.Configuration("https://qos-discovery.services.api.unity.com", 10, 4, null);
-#endif // USE_QOS
-#endif // AUTHENTICATION_TESTING_STAGING_UAS
-        }
-
         /// <summary>
         /// A static instance of the Relay Allocation Client.
         /// </summary>
@@ -50,8 +25,13 @@ namespace Unity.Services.Relay
                     return service;
                 }
 
-                service = new WrappedRelayService(RelayServiceSdk.Instance);
+                var serviceSdk = RelayServiceSdk.Instance;
+                if (serviceSdk == null) 
+                {
+                    throw new InvalidOperationException("Attempting to call Relay Services requires initializing Core Registry. Call 'UnityServices.InitializeAsync' first!");
+                }
 
+                service = new WrappedRelayService(serviceSdk);
                 return service;
             }
         }

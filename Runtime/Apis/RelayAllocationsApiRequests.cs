@@ -8,17 +8,20 @@
 //-----------------------------------------------------------------------------
 
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine.Scripting;
 using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
+using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Scripting;
 using Unity.Services.Relay.Models;
+using Unity.Services.Relay.Scheduler;
 using Unity.Services.Authentication.Internal;
 
-namespace Unity.Services.Relay.Allocations
+namespace Unity.Services.Relay.RelayAllocations
 {
     internal static class JsonSerialization
     {
@@ -34,10 +37,10 @@ namespace Unity.Services.Relay.Allocations
     }
 
     /// <summary>
-    /// AllocationsApiBaseRequest class
+    /// RelayAllocationsApiBaseRequest class
     /// </summary>
     [Preserve]
-    internal class AllocationsApiBaseRequest
+    internal class RelayAllocationsApiBaseRequest
     {
         /// <summary>
         /// Helper function to add a provided key and value to the provided
@@ -98,7 +101,7 @@ namespace Unity.Services.Relay.Allocations
         /// query params and to escape the values correctly if it is a URL.
         /// </summary>
         /// <param name="queryParams">A `List/<string/>` of the query parameters.</param>
-        /// <param name="key">The key to be added.</param>        
+        /// <param name="key">The key to be added.</param>
         /// <typeparam name="T">The type of the value to be added.</typeparam>
         /// <param name="value">The value to be added.</param>
         /// <returns>Returns a `List/<string/>`</returns>
@@ -220,17 +223,24 @@ namespace Unity.Services.Relay.Allocations
         /// Generate multipart form file section.
         /// </summary>
         /// <param name="paramName">The parameter name.</param>
+        /// <param name="stream">The file stream to use.</param>
+        /// <param name="contentType">The content type.</param>
+        /// <returns>Returns a multipart form section.</returns>
+        public IMultipartFormSection GenerateMultipartFormFileSection(string paramName, System.IO.FileStream stream, string contentType)
+        {
+            return new MultipartFormFileSection(paramName, ConstructBody(stream), GetFileName(stream.Name), contentType);
+        }
+
+        /// <summary>
+        /// Generate multipart form file section.
+        /// </summary>
+        /// <param name="paramName">The parameter name.</param>
         /// <param name="stream">The IO stream to use.</param>
         /// <param name="contentType">The content type.</param>
         /// <returns>Returns a multipart form section.</returns>
         public IMultipartFormSection GenerateMultipartFormFileSection(string paramName, System.IO.Stream stream, string contentType)
         {
-            if (stream is System.IO.FileStream)
-            {
-                System.IO.FileStream fileStream = (System.IO.FileStream) stream;
-                return new MultipartFormFileSection(paramName, ConstructBody(fileStream), GetFileName(fileStream.Name), contentType);
-            }
-            return new MultipartFormDataSection(paramName, ConstructBody(stream));
+            return new MultipartFormFileSection(paramName, ConstructBody(stream), Guid.NewGuid().ToString(), contentType);
         }
 
         private string GetFileName(string filePath)
@@ -241,24 +251,24 @@ namespace Unity.Services.Relay.Allocations
 
     /// <summary>
     /// CreateAllocationRequest
-    /// Create Allocation
+    /// Create an allocation.
     /// </summary>
     [Preserve]
-    internal class CreateAllocationRequest : AllocationsApiBaseRequest
+    internal class CreateAllocationRequest : RelayAllocationsApiBaseRequest
     {
         /// <summary>Accessor for allocationRequest </summary>
         [Preserve]
-        public AllocationRequest AllocationRequest { get; }
+        public Unity.Services.Relay.Models.AllocationRequest AllocationRequest { get; }
         
         string PathAndQueryParams;
 
         /// <summary>
         /// CreateAllocation Request Object.
-        /// Create Allocation
+        /// Create an allocation.
         /// </summary>
         /// <param name="allocationRequest">AllocationRequest param</param>
         [Preserve]
-        public CreateAllocationRequest(AllocationRequest allocationRequest)
+        public CreateAllocationRequest(Unity.Services.Relay.Models.AllocationRequest allocationRequest)
         {
             AllocationRequest = allocationRequest;
             
@@ -308,6 +318,10 @@ namespace Unity.Services.Relay.Allocations
                 headers.Add("authorization", "Bearer " + accessToken.AccessToken);
             }
 
+            // Analytics headers
+            headers.Add("Unity-Client-Version", Application.unityVersion);
+            headers.Add("Unity-Client-Mode", Scheduler.EngineStateHelper.IsPlaying ? "play" : "edit");
+
             string[] contentTypes = {
                 "application/json"
             };
@@ -322,10 +336,15 @@ namespace Unity.Services.Relay.Allocations
             {
                 headers.Add("Accept", acceptHeader);
             }
+            var httpMethod = "POST";
             var contentTypeHeader = GenerateContentTypeHeader(contentTypes);
             if (!string.IsNullOrEmpty(contentTypeHeader))
             {
                 headers.Add("Content-Type", contentTypeHeader);
+            }
+            else if (httpMethod == "POST" || httpMethod == "PATCH")
+            {
+                headers.Add("Content-Type", "application/json");
             }
 
 
@@ -344,24 +363,24 @@ namespace Unity.Services.Relay.Allocations
     }
     /// <summary>
     /// CreateJoincodeRequest
-    /// Create Join Code
+    /// Create a join code.
     /// </summary>
     [Preserve]
-    internal class CreateJoincodeRequest : AllocationsApiBaseRequest
+    internal class CreateJoincodeRequest : RelayAllocationsApiBaseRequest
     {
         /// <summary>Accessor for joinCodeRequest </summary>
         [Preserve]
-        public JoinCodeRequest JoinCodeRequest { get; }
+        public Unity.Services.Relay.Models.JoinCodeRequest JoinCodeRequest { get; }
         
         string PathAndQueryParams;
 
         /// <summary>
         /// CreateJoincode Request Object.
-        /// Create Join Code
+        /// Create a join code.
         /// </summary>
         /// <param name="joinCodeRequest">JoinCodeRequest param</param>
         [Preserve]
-        public CreateJoincodeRequest(JoinCodeRequest joinCodeRequest)
+        public CreateJoincodeRequest(Unity.Services.Relay.Models.JoinCodeRequest joinCodeRequest)
         {
             JoinCodeRequest = joinCodeRequest;
             
@@ -411,6 +430,10 @@ namespace Unity.Services.Relay.Allocations
                 headers.Add("authorization", "Bearer " + accessToken.AccessToken);
             }
 
+            // Analytics headers
+            headers.Add("Unity-Client-Version", Application.unityVersion);
+            headers.Add("Unity-Client-Mode", Scheduler.EngineStateHelper.IsPlaying ? "play" : "edit");
+
             string[] contentTypes = {
                 "application/json"
             };
@@ -425,10 +448,15 @@ namespace Unity.Services.Relay.Allocations
             {
                 headers.Add("Accept", acceptHeader);
             }
+            var httpMethod = "POST";
             var contentTypeHeader = GenerateContentTypeHeader(contentTypes);
             if (!string.IsNullOrEmpty(contentTypeHeader))
             {
                 headers.Add("Content-Type", contentTypeHeader);
+            }
+            else if (httpMethod == "POST" || httpMethod == "PATCH")
+            {
+                headers.Add("Content-Type", "application/json");
             }
 
 
@@ -447,24 +475,24 @@ namespace Unity.Services.Relay.Allocations
     }
     /// <summary>
     /// JoinRelayRequest
-    /// Join Relay
+    /// Join a Relay server.
     /// </summary>
     [Preserve]
-    internal class JoinRelayRequest : AllocationsApiBaseRequest
+    internal class JoinRelayRequest : RelayAllocationsApiBaseRequest
     {
         /// <summary>Accessor for joinRequest </summary>
         [Preserve]
-        public JoinRequest JoinRequest { get; }
+        public Unity.Services.Relay.Models.JoinRequest JoinRequest { get; }
         
         string PathAndQueryParams;
 
         /// <summary>
         /// JoinRelay Request Object.
-        /// Join Relay
+        /// Join a Relay server.
         /// </summary>
         /// <param name="joinRequest">JoinRequest param</param>
         [Preserve]
-        public JoinRelayRequest(JoinRequest joinRequest)
+        public JoinRelayRequest(Unity.Services.Relay.Models.JoinRequest joinRequest)
         {
             JoinRequest = joinRequest;
             
@@ -514,6 +542,10 @@ namespace Unity.Services.Relay.Allocations
                 headers.Add("authorization", "Bearer " + accessToken.AccessToken);
             }
 
+            // Analytics headers
+            headers.Add("Unity-Client-Version", Application.unityVersion);
+            headers.Add("Unity-Client-Mode", Scheduler.EngineStateHelper.IsPlaying ? "play" : "edit");
+
             string[] contentTypes = {
                 "application/json"
             };
@@ -528,10 +560,15 @@ namespace Unity.Services.Relay.Allocations
             {
                 headers.Add("Accept", acceptHeader);
             }
+            var httpMethod = "POST";
             var contentTypeHeader = GenerateContentTypeHeader(contentTypes);
             if (!string.IsNullOrEmpty(contentTypeHeader))
             {
                 headers.Add("Content-Type", contentTypeHeader);
+            }
+            else if (httpMethod == "POST" || httpMethod == "PATCH")
+            {
+                headers.Add("Content-Type", "application/json");
             }
 
 
@@ -550,16 +587,16 @@ namespace Unity.Services.Relay.Allocations
     }
     /// <summary>
     /// ListRegionsRequest
-    /// List relay regions
+    /// List available Relay regions.
     /// </summary>
     [Preserve]
-    internal class ListRegionsRequest : AllocationsApiBaseRequest
+    internal class ListRegionsRequest : RelayAllocationsApiBaseRequest
     {
         string PathAndQueryParams;
 
         /// <summary>
         /// ListRegions Request Object.
-        /// List relay regions
+        /// List available Relay regions.
         /// </summary>
         [Preserve]
         public ListRegionsRequest()
@@ -611,6 +648,10 @@ namespace Unity.Services.Relay.Allocations
                 headers.Add("authorization", "Bearer " + accessToken.AccessToken);
             }
 
+            // Analytics headers
+            headers.Add("Unity-Client-Version", Application.unityVersion);
+            headers.Add("Unity-Client-Mode", Scheduler.EngineStateHelper.IsPlaying ? "play" : "edit");
+
             string[] contentTypes = {
             };
 
@@ -624,10 +665,15 @@ namespace Unity.Services.Relay.Allocations
             {
                 headers.Add("Accept", acceptHeader);
             }
+            var httpMethod = "GET";
             var contentTypeHeader = GenerateContentTypeHeader(contentTypes);
             if (!string.IsNullOrEmpty(contentTypeHeader))
             {
                 headers.Add("Content-Type", contentTypeHeader);
+            }
+            else if (httpMethod == "POST" || httpMethod == "PATCH")
+            {
+                headers.Add("Content-Type", "application/json");
             }
 
 

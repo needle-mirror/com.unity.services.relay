@@ -1,10 +1,8 @@
 {
     "name": "Unity.Services.Relay",
-    "rootNamespace": "",
     "references": [
         "Unity.Services.Core",
-        "Unity.Services.Core.Internal",
-        "Unity.Services.Relay.Qos"
+        "Unity.Services.Core.Internal"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -13,12 +11,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [
-        {
-            "name": "com.unity.ucg.qos",
-            "expression": "",
-            "define": "USE_QOS"
-        }
-    ],
+    "versionDefines": [],
     "noEngineReferences": false
 }

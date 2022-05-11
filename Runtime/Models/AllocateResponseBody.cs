@@ -22,11 +22,7 @@ namespace Unity.Services.Relay.Models
 {
     /// <summary>
     /// AllocateResponseBody model
-    /// <param name="meta">meta param</param>
-    /// <param name="links">links param</param>
-    /// <param name="data">data param</param>
     /// </summary>
-
     [Preserve]
     [DataContract(Name = "AllocateResponseBody")]
     public class AllocateResponseBody

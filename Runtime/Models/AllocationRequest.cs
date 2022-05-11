@@ -21,20 +21,17 @@ using Unity.Services.Relay.Http;
 namespace Unity.Services.Relay.Models
 {
     /// <summary>
-    /// A request to create an allocation
-    /// <param name="maxConnections">Indicates the maximum number of connections that the client will allow to communicate with them.  It will also be used in order to find a relay with sufficient capacity</param>
-    /// <param name="region">Indicates the region this allocation should go. If not provided, a default region will be chosen.</param>
+    /// A request to create an allocation.
     /// </summary>
-
     [Preserve]
     [DataContract(Name = "AllocationRequest")]
     public class AllocationRequest
     {
         /// <summary>
-        /// A request to create an allocation
+        /// A request to create an allocation.
         /// </summary>
-        /// <param name="maxConnections">Indicates the maximum number of connections that the client will allow to communicate with them.  It will also be used in order to find a relay with sufficient capacity</param>
-        /// <param name="region">Indicates the region this allocation should go. If not provided, a default region will be chosen.</param>
+        /// <param name="maxConnections">The maximum number of peer connections allowed for this allocation. The Allocations service also uses this number to find a Relay with sufficient capacity.</param>
+        /// <param name="region">The region in which to create this allocation.  Get a list of supported values from the &#x60;/regions&#x60; endpoint or omit this parameter to use the default region.</param>
         [Preserve]
         public AllocationRequest(int maxConnections, string region = default)
         {
@@ -43,13 +40,13 @@ namespace Unity.Services.Relay.Models
         }
 
         /// <summary>
-        /// Indicates the maximum number of connections that the client will allow to communicate with them.  It will also be used in order to find a relay with sufficient capacity
+        /// The maximum number of peer connections allowed for this allocation. The Allocations service also uses this number to find a Relay with sufficient capacity.
         /// </summary>
         [Preserve]
         [DataMember(Name = "maxConnections", IsRequired = true, EmitDefaultValue = true)]
         public int MaxConnections{ get; }
         /// <summary>
-        /// Indicates the region this allocation should go. If not provided, a default region will be chosen.
+        /// The region in which to create this allocation.  Get a list of supported values from the &#x60;/regions&#x60; endpoint or omit this parameter to use the default region.
         /// </summary>
         [Preserve]
         [DataMember(Name = "region", EmitDefaultValue = false)]

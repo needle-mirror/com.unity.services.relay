@@ -21,18 +21,16 @@ using Unity.Services.Relay.Http;
 namespace Unity.Services.Relay.Models
 {
     /// <summary>
-    /// A request to create a join code
-    /// <param name="allocationId">UUID of the allocation which will be mapped to the generated join code.  The connection data blob from the allocation will be shared with clients who use the generated join code on the /v1/join endpoint. This sharing is a mechanism to establish communication between players via the relay server data protocol</param>
+    /// A request to create a join code.
     /// </summary>
-
     [Preserve]
     [DataContract(Name = "JoinCodeRequest")]
     public class JoinCodeRequest
     {
         /// <summary>
-        /// A request to create a join code
+        /// A request to create a join code.
         /// </summary>
-        /// <param name="allocationId">UUID of the allocation which will be mapped to the generated join code.  The connection data blob from the allocation will be shared with clients who use the generated join code on the /v1/join endpoint. This sharing is a mechanism to establish communication between players via the relay server data protocol</param>
+        /// <param name="allocationId">The UUID of the allocation. The Allocations service maps this allocation ID to the generated join code.  The Allocations service shares the allocation connection data with players who use the join code with the &#x60;/join&#x60; endpoint. This sharing mechanism establishes communication between players via the Relay server data protocol.</param>
         [Preserve]
         public JoinCodeRequest(System.Guid allocationId)
         {
@@ -40,7 +38,7 @@ namespace Unity.Services.Relay.Models
         }
 
         /// <summary>
-        /// UUID of the allocation which will be mapped to the generated join code.  The connection data blob from the allocation will be shared with clients who use the generated join code on the /v1/join endpoint. This sharing is a mechanism to establish communication between players via the relay server data protocol
+        /// The UUID of the allocation. The Allocations service maps this allocation ID to the generated join code.  The Allocations service shares the allocation connection data with players who use the join code with the &#x60;/join&#x60; endpoint. This sharing mechanism establishes communication between players via the Relay server data protocol.
         /// </summary>
         [Preserve]
         [DataMember(Name = "allocationId", IsRequired = true, EmitDefaultValue = true)]

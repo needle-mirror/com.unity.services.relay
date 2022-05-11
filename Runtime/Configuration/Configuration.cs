@@ -39,7 +39,14 @@ namespace Unity.Services.Relay
             BasePath = basePath;
             RequestTimeout = requestTimeout;
             NumberOfRetries = numRetries;
-            Headers = headers;
+            if(headers == null)
+            {
+                Headers = headers;
+            }
+            else
+            {
+                Headers = new Dictionary<string, string>(headers);
+            }
         }
 
         /// <summary>
@@ -61,7 +68,7 @@ namespace Unity.Services.Relay
                 return a ?? b;
             }
 
-            Configuration mergedConfig = a;
+            Configuration mergedConfig = new Configuration(a.BasePath, a.RequestTimeout, a.NumberOfRetries, a.Headers);
 
             if(mergedConfig.BasePath == null)
             {

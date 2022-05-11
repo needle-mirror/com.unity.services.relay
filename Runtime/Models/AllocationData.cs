@@ -22,9 +22,7 @@ namespace Unity.Services.Relay.Models
 {
     /// <summary>
     /// AllocationData model
-    /// <param name="allocation">allocation param</param>
     /// </summary>
-
     [Preserve]
     [DataContract(Name = "AllocationData")]
     public class AllocationData

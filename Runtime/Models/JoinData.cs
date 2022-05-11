@@ -22,9 +22,7 @@ namespace Unity.Services.Relay.Models
 {
     /// <summary>
     /// JoinData model
-    /// <param name="allocation">allocation param</param>
     /// </summary>
-
     [Preserve]
     [DataContract(Name = "JoinData")]
     public class JoinData

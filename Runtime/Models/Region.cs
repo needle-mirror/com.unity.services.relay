@@ -22,10 +22,7 @@ namespace Unity.Services.Relay.Models
 {
     /// <summary>
     /// Region model
-    /// <param name="id">The region id used in allocation requests</param>
-    /// <param name="description">A human readable description of the region. May include geographical information, for example, city name, country.</param>
     /// </summary>
-
     [Preserve]
     [DataContract(Name = "Region")]
     public class Region
@@ -33,8 +30,8 @@ namespace Unity.Services.Relay.Models
         /// <summary>
         /// Creates an instance of Region.
         /// </summary>
-        /// <param name="id">The region id used in allocation requests</param>
-        /// <param name="description">A human readable description of the region. May include geographical information, for example, city name, country.</param>
+        /// <param name="id">The region ID used in allocation requests.</param>
+        /// <param name="description">A human-readable description of the region. It can include geographical information such as the city name or country.</param>
         [Preserve]
         public Region(string id, string description)
         {
@@ -43,13 +40,13 @@ namespace Unity.Services.Relay.Models
         }
 
         /// <summary>
-        /// The region id used in allocation requests
+        /// The region ID used in allocation requests.
         /// </summary>
         [Preserve]
         [DataMember(Name = "id", IsRequired = true, EmitDefaultValue = true)]
         public string Id{ get; }
         /// <summary>
-        /// A human readable description of the region. May include geographical information, for example, city name, country.
+        /// A human-readable description of the region. It can include geographical information such as the city name or country.
         /// </summary>
         [Preserve]
         [DataMember(Name = "description", IsRequired = true, EmitDefaultValue = true)]

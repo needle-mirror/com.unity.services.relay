@@ -22,9 +22,7 @@ namespace Unity.Services.Relay.Models
 {
     /// <summary>
     /// JoinCodeData model
-    /// <param name="joinCode">The join code is used to lookup the connection data for the player responsible for creating it. It is case-insensitive.  The connection data is returned to the caller and can be used in the request to the \&quot;join\&quot; endpoint to join a relay server.</param>
     /// </summary>
-
     [Preserve]
     [DataContract(Name = "JoinCodeData")]
     public class JoinCodeData
@@ -32,7 +30,7 @@ namespace Unity.Services.Relay.Models
         /// <summary>
         /// Creates an instance of JoinCodeData.
         /// </summary>
-        /// <param name="joinCode">The join code is used to lookup the connection data for the player responsible for creating it. It is case-insensitive.  The connection data is returned to the caller and can be used in the request to the \&quot;join\&quot; endpoint to join a relay server.</param>
+        /// <param name="joinCode">The connecting player can use the join code with the &#x60;/join&#x60; endpoint to join the same Relay server as the host player who created the join code. The join code is case-insensitive.</param>
         [Preserve]
         public JoinCodeData(string joinCode)
         {
@@ -40,7 +38,7 @@ namespace Unity.Services.Relay.Models
         }
 
         /// <summary>
-        /// The join code is used to lookup the connection data for the player responsible for creating it. It is case-insensitive.  The connection data is returned to the caller and can be used in the request to the \&quot;join\&quot; endpoint to join a relay server.
+        /// The connecting player can use the join code with the &#x60;/join&#x60; endpoint to join the same Relay server as the host player who created the join code. The join code is case-insensitive.
         /// </summary>
         [Preserve]
         [DataMember(Name = "joinCode", IsRequired = true, EmitDefaultValue = true)]

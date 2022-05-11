@@ -22,9 +22,7 @@ namespace Unity.Services.Relay.Models
 {
     /// <summary>
     /// JoinAllocationAllOf model
-    /// <param name="hostConnectionData">Base64 encoded representation of an encrypted connection data blob describing the allocation and relay server of the player who created the join code. Used for establishing communication with the host.</param>
     /// </summary>
-
     [Preserve]
     [DataContract(Name = "JoinAllocation_allOf")]
     public class JoinAllocationAllOf
@@ -32,7 +30,7 @@ namespace Unity.Services.Relay.Models
         /// <summary>
         /// Creates an instance of JoinAllocationAllOf.
         /// </summary>
-        /// <param name="hostConnectionData">Base64 encoded representation of an encrypted connection data blob describing the allocation and relay server of the player who created the join code. Used for establishing communication with the host.</param>
+        /// <param name="hostConnectionData">A base64-encoded representation of an encrypted connection data blob describing the allocation and Relay server of the player who created the join code. Connecting players can use this data to establish communication with the host player.</param>
         [Preserve]
         public JoinAllocationAllOf(byte[] hostConnectionData)
         {
@@ -40,7 +38,7 @@ namespace Unity.Services.Relay.Models
         }
 
         /// <summary>
-        /// Base64 encoded representation of an encrypted connection data blob describing the allocation and relay server of the player who created the join code. Used for establishing communication with the host.
+        /// A base64-encoded representation of an encrypted connection data blob describing the allocation and Relay server of the player who created the join code. Connecting players can use this data to establish communication with the host player.
         /// </summary>
         [Preserve]
         [DataMember(Name = "hostConnectionData", IsRequired = true, EmitDefaultValue = true)]

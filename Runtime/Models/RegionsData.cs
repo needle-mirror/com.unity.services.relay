@@ -22,9 +22,7 @@ namespace Unity.Services.Relay.Models
 {
     /// <summary>
     /// RegionsData model
-    /// <param name="regions">Regions where relay servers might be available</param>
     /// </summary>
-
     [Preserve]
     [DataContract(Name = "RegionsData")]
     public class RegionsData
@@ -32,7 +30,7 @@ namespace Unity.Services.Relay.Models
         /// <summary>
         /// Creates an instance of RegionsData.
         /// </summary>
-        /// <param name="regions">Regions where relay servers might be available</param>
+        /// <param name="regions">An array of regions where Relay servers might be available.</param>
         [Preserve]
         public RegionsData(List<Region> regions)
         {
@@ -40,7 +38,7 @@ namespace Unity.Services.Relay.Models
         }
 
         /// <summary>
-        /// Regions where relay servers might be available
+        /// An array of regions where Relay servers might be available.
         /// </summary>
         [Preserve]
         [DataMember(Name = "regions", IsRequired = true, EmitDefaultValue = true)]

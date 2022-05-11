@@ -15,6 +15,9 @@ using UnityEngine;
 
 namespace Unity.Services.Relay.Http
 {
+    /// <summary>
+    /// JsonHelpers class
+    /// </summary>
     internal static class JsonHelpers
     {
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSplashScreen)]

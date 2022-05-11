@@ -21,18 +21,16 @@ using Unity.Services.Relay.Http;
 namespace Unity.Services.Relay.Models
 {
     /// <summary>
-    /// A request to join a relay using a join code
-    /// <param name="joinCode">The join code is used to lookup the connection data for the player responsible for creating it. It is case-insensitive, spans six to twelve characters and is composed only of characters that are in &#39;6789BCDFGHJKLMNPQRTW&#39;.  The connection data is returned to the caller and can be used in the request to the \&quot;join\&quot; endpoint to join a relay server.</param>
+    /// A request to join a Relay server using a join code.
     /// </summary>
-
     [Preserve]
     [DataContract(Name = "JoinRequest")]
     public class JoinRequest
     {
         /// <summary>
-        /// A request to join a relay using a join code
+        /// A request to join a Relay server using a join code.
         /// </summary>
-        /// <param name="joinCode">The join code is used to lookup the connection data for the player responsible for creating it. It is case-insensitive, spans six to twelve characters and is composed only of characters that are in &#39;6789BCDFGHJKLMNPQRTW&#39;.  The connection data is returned to the caller and can be used in the request to the \&quot;join\&quot; endpoint to join a relay server.</param>
+        /// <param name="joinCode">Join codes are case-insensitive, span six to twelve characters, and are composed only of characters that are in &#39;6789BCDFGHJKLMNPQRTW&#39;.  The Allocations service uses join codes to look up the connection data of the host player who created the join code.</param>
         [Preserve]
         public JoinRequest(string joinCode)
         {
@@ -40,7 +38,7 @@ namespace Unity.Services.Relay.Models
         }
 
         /// <summary>
-        /// The join code is used to lookup the connection data for the player responsible for creating it. It is case-insensitive, spans six to twelve characters and is composed only of characters that are in &#39;6789BCDFGHJKLMNPQRTW&#39;.  The connection data is returned to the caller and can be used in the request to the \&quot;join\&quot; endpoint to join a relay server.
+        /// Join codes are case-insensitive, span six to twelve characters, and are composed only of characters that are in &#39;6789BCDFGHJKLMNPQRTW&#39;.  The Allocations service uses join codes to look up the connection data of the host player who created the join code.
         /// </summary>
         [Preserve]
         [DataMember(Name = "joinCode", IsRequired = true, EmitDefaultValue = true)]

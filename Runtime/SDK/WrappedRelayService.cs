@@ -2,10 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Unity.Services.Authentication;
-using Unity.Services.Authentication.Internal;
 using Unity.Services.Core;
-using Unity.Services.Relay.Apis.Allocations;
 using Unity.Services.Relay.Http;
 using Unity.Services.Relay.Models;
 using UnityEngine;
@@ -21,6 +18,8 @@ namespace Unity.Services.Relay
     {
         internal IRelayServiceSdk m_RelayService { get; set; }
 
+        private const string QosRelayServiceName = "relay";
+
         internal WrappedRelayService(IRelayServiceSdk relayService)
         {
             m_RelayService = relayService;
@@ -32,36 +31,47 @@ namespace Unity.Services.Relay
         {
             EnsureSignedIn();
 
-            if (maxConnections <= 0) 
+            if (maxConnections <= 0)
             {
                 throw new ArgumentException("Maximum number of connections for an allocation must be greater than 0!");
             }
 
-            if (m_RelayService.QosService != null && string.IsNullOrEmpty(region))
+            if (m_RelayService.QosResults == null)
+            {
+                throw new Exception("Qos component should not be null, check that is is properly initialized.");
+            }
+            if (string.IsNullOrEmpty(region))
             {
                 try
                 {
-                    var regions = await ListRegionsAsync();
-                    var orderedRegions = await m_RelayService.QosService.OrderRegionsByQoSAsync(regions);
-                    if (orderedRegions != null && orderedRegions.Any())
+                    var regions = (await ListRegionsAsync()).Select(r => r.Id).ToList();
+                    var qosResults =
+                        await m_RelayService.QosResults.GetSortedQosResultsAsync(QosRelayServiceName, regions);
+                    // pick first region in the sorted list (best latency + packet loss)
+                    if (qosResults.Any())
                     {
-                        region = orderedRegions[0].Id;
+                        region = qosResults[0].Region;
+                        Debug.Log($"best region is {region}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    Debug.Log($"Could not do Qos region selection. Will use default. Error[{ex.Message}]");
+                    Debug.LogWarning($"Could not do Qos region selection. Will use default.{Environment.NewLine}" +
+                        $"QoS failed due to [{ex.GetType().Name}]. Reason: {ex.Message}");
                 }
             }
 
             try
             {
-                var response = await m_RelayService.AllocationsApi.CreateAllocationAsync(new Allocations.CreateAllocationRequest(new AllocationRequest(maxConnections, region)), m_RelayService.Configuration);
+                var response = await m_RelayService.AllocationsApi.CreateAllocationAsync(
+                    new RelayAllocations.CreateAllocationRequest(new AllocationRequest(maxConnections, region)),
+                    m_RelayService.Configuration);
                 return response.Result.Data.Allocation;
             }
             catch (HttpException<ErrorResponseBody> e)
             {
-                throw new RelayServiceException(e.ActualError.GetExceptionReason(), e.ActualError.GetExceptionMessage(), e);
+                throw new RelayServiceException(e.ActualError.GetExceptionReason(), e.ActualError.GetExceptionMessage(),
+                    e);
             }
             catch (HttpException e)
             {
@@ -75,7 +85,7 @@ namespace Unity.Services.Relay
                     throw new RelayServiceException(RelayExceptionReason.NetworkError, e.Response.ErrorMessage);
                 }
 
-                throw new RequestFailedException((int)RelayExceptionReason.Unknown, "Something went wrong.", e);
+                throw new RequestFailedException((int) RelayExceptionReason.Unknown, "Something went wrong.", e);
             }
         }
 
@@ -87,19 +97,22 @@ namespace Unity.Services.Relay
         {
             EnsureSignedIn();
 
-            if (allocationId == null || allocationId == Guid.Empty) 
+            if (allocationId == null || allocationId == Guid.Empty)
             {
                 throw new ArgumentNullException("AllocationId cannot be null or empty!");
             }
 
             try
             {
-                var response = await m_RelayService.AllocationsApi.CreateJoincodeAsync(new Allocations.CreateJoincodeRequest(new JoinCodeRequest(allocationId)), m_RelayService.Configuration);
+                var response = await m_RelayService.AllocationsApi.CreateJoincodeAsync(
+                    new RelayAllocations.CreateJoincodeRequest(new JoinCodeRequest(allocationId)),
+                    m_RelayService.Configuration);
                 return response.Result.Data.JoinCode;
             }
             catch (HttpException<ErrorResponseBody> e)
             {
-                throw new RelayServiceException(e.ActualError.GetExceptionReason(), e.ActualError.GetExceptionMessage(), e);
+                throw new RelayServiceException(e.ActualError.GetExceptionReason(), e.ActualError.GetExceptionMessage(),
+                    e);
             }
             catch (HttpException e)
             {
@@ -113,7 +126,7 @@ namespace Unity.Services.Relay
                     throw new RelayServiceException(RelayExceptionReason.NetworkError, e.Response.ErrorMessage);
                 }
 
-                throw new RequestFailedException((int)RelayExceptionReason.Unknown, "Something went wrong.", e);
+                throw new RequestFailedException((int) RelayExceptionReason.Unknown, "Something went wrong.", e);
             }
         }
 
@@ -125,20 +138,23 @@ namespace Unity.Services.Relay
         {
             EnsureSignedIn();
 
-            if (string.IsNullOrWhiteSpace(joinCode)) 
+            if (string.IsNullOrWhiteSpace(joinCode))
             {
-                throw new ArgumentNullException("JoinCode must be non-null, non-empty, and cannot contain only whitespace!");
+                throw new ArgumentNullException(
+                    "JoinCode must be non-null, non-empty, and cannot contain only whitespace!");
             }
 
             try
             {
-                var response = await m_RelayService.AllocationsApi.JoinRelayAsync(new Allocations.JoinRelayRequest(new JoinRequest(joinCode)), m_RelayService.Configuration);
+                var response = await m_RelayService.AllocationsApi.JoinRelayAsync(
+                    new RelayAllocations.JoinRelayRequest(new JoinRequest(joinCode)), m_RelayService.Configuration);
 
                 return response.Result.Data.Allocation;
             }
             catch (HttpException<ErrorResponseBody> e)
             {
-                throw new RelayServiceException(e.ActualError.GetExceptionReason(), e.ActualError.GetExceptionMessage(), e);
+                throw new RelayServiceException(e.ActualError.GetExceptionReason(), e.ActualError.GetExceptionMessage(),
+                    e);
             }
             catch (HttpException e)
             {
@@ -152,7 +168,7 @@ namespace Unity.Services.Relay
                     throw new RelayServiceException(RelayExceptionReason.NetworkError, e.Response.ErrorMessage);
                 }
 
-                throw new RequestFailedException((int)RelayExceptionReason.Unknown, "Something went wrong.", e);
+                throw new RequestFailedException((int) RelayExceptionReason.Unknown, "Something went wrong.", e);
             }
         }
 
@@ -165,13 +181,16 @@ namespace Unity.Services.Relay
 
             try
             {
-                var response = await m_RelayService.AllocationsApi.ListRegionsAsync(new Allocations.ListRegionsRequest(), m_RelayService.Configuration);
+                var response =
+                    await m_RelayService.AllocationsApi.ListRegionsAsync(new RelayAllocations.ListRegionsRequest(),
+                        m_RelayService.Configuration);
 
                 return response.Result.Data.Regions;
             }
             catch (HttpException<ErrorResponseBody> e)
             {
-                throw new RelayServiceException(e.ActualError.GetExceptionReason(), e.ActualError.GetExceptionMessage(), e);
+                throw new RelayServiceException(e.ActualError.GetExceptionReason(), e.ActualError.GetExceptionMessage(),
+                    e);
             }
             catch (HttpException e)
             {
@@ -185,7 +204,7 @@ namespace Unity.Services.Relay
                     throw new RelayServiceException(RelayExceptionReason.NetworkError, e.Response.ErrorMessage);
                 }
 
-                throw new RequestFailedException((int)RelayExceptionReason.Unknown, "Something went wrong.", e);
+                throw new RequestFailedException((int) RelayExceptionReason.Unknown, "Something went wrong.", e);
             }
         }
 
@@ -193,12 +212,13 @@ namespace Unity.Services.Relay
         {
             this.m_RelayService.Configuration.BasePath = allocationsBasePath;
         }
-        
+
         private void EnsureSignedIn()
         {
             if (m_RelayService.AccessToken.AccessToken == null)
             {
-                throw new RelayServiceException(RelayExceptionReason.Unauthorized, "You are not signed in to the Authentication Service. Please sign in.");
+                throw new RelayServiceException(RelayExceptionReason.Unauthorized,
+                    "You are not signed in to the Authentication Service. Please sign in.");
             }
         }
     }

@@ -22,11 +22,7 @@ namespace Unity.Services.Relay.Models
 {
     /// <summary>
     /// JoinCodeResponseBody model
-    /// <param name="meta">meta param</param>
-    /// <param name="links">links param</param>
-    /// <param name="data">data param</param>
     /// </summary>
-
     [Preserve]
     [DataContract(Name = "JoinCodeResponseBody")]
     public class JoinCodeResponseBody

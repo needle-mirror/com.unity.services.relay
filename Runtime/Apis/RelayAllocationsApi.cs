@@ -13,59 +13,59 @@ using System.Collections.Generic;
 using Unity.Services.Relay.Models;
 using Unity.Services.Relay.Http;
 using Unity.Services.Authentication.Internal;
-using Unity.Services.Relay.Allocations;
+using Unity.Services.Relay.RelayAllocations;
 
-namespace Unity.Services.Relay.Apis.Allocations
+namespace Unity.Services.Relay.Apis.RelayAllocations
 {
     /// <summary>
-    /// Interface for the AllocationsApiClient
+    /// Interface for the RelayAllocationsApiClient
     /// </summary>
-    internal interface IAllocationsApiClient
+    internal interface IRelayAllocationsApiClient
     {
             /// <summary>
             /// Async Operation.
-            /// Create Allocation.
+            /// Create an allocation..
             /// </summary>
             /// <param name="request">Request object for CreateAllocation.</param>
             /// <param name="operationConfiguration">Configuration for CreateAllocation.</param>
             /// <returns>Task for a Response object containing status code, headers, and Models.AllocateResponseBody object.</returns>
             /// <exception cref="Unity.Services.Relay.Http.HttpException">An exception containing the HttpClientResponse with headers, response code, and string of error.</exception>
-            Task<Response<Models.AllocateResponseBody>> CreateAllocationAsync(CreateAllocationRequest request, Configuration operationConfiguration = null);
+            Task<Response<Models.AllocateResponseBody>> CreateAllocationAsync(Unity.Services.Relay.RelayAllocations.CreateAllocationRequest request, Configuration operationConfiguration = null);
 
             /// <summary>
             /// Async Operation.
-            /// Create Join Code.
+            /// Create a join code..
             /// </summary>
             /// <param name="request">Request object for CreateJoincode.</param>
             /// <param name="operationConfiguration">Configuration for CreateJoincode.</param>
             /// <returns>Task for a Response object containing status code, headers, and Models.JoinCodeResponseBody object.</returns>
             /// <exception cref="Unity.Services.Relay.Http.HttpException">An exception containing the HttpClientResponse with headers, response code, and string of error.</exception>
-            Task<Response<Models.JoinCodeResponseBody>> CreateJoincodeAsync(CreateJoincodeRequest request, Configuration operationConfiguration = null);
+            Task<Response<Models.JoinCodeResponseBody>> CreateJoincodeAsync(Unity.Services.Relay.RelayAllocations.CreateJoincodeRequest request, Configuration operationConfiguration = null);
 
             /// <summary>
             /// Async Operation.
-            /// Join Relay.
+            /// Join a Relay server..
             /// </summary>
             /// <param name="request">Request object for JoinRelay.</param>
             /// <param name="operationConfiguration">Configuration for JoinRelay.</param>
             /// <returns>Task for a Response object containing status code, headers, and Models.JoinResponseBody object.</returns>
             /// <exception cref="Unity.Services.Relay.Http.HttpException">An exception containing the HttpClientResponse with headers, response code, and string of error.</exception>
-            Task<Response<Models.JoinResponseBody>> JoinRelayAsync(JoinRelayRequest request, Configuration operationConfiguration = null);
+            Task<Response<Models.JoinResponseBody>> JoinRelayAsync(Unity.Services.Relay.RelayAllocations.JoinRelayRequest request, Configuration operationConfiguration = null);
 
             /// <summary>
             /// Async Operation.
-            /// List relay regions.
+            /// List available Relay regions..
             /// </summary>
             /// <param name="request">Request object for ListRegions.</param>
             /// <param name="operationConfiguration">Configuration for ListRegions.</param>
             /// <returns>Task for a Response object containing status code, headers, and Models.RegionsResponseBody object.</returns>
             /// <exception cref="Unity.Services.Relay.Http.HttpException">An exception containing the HttpClientResponse with headers, response code, and string of error.</exception>
-            Task<Response<Models.RegionsResponseBody>> ListRegionsAsync(ListRegionsRequest request, Configuration operationConfiguration = null);
+            Task<Response<Models.RegionsResponseBody>> ListRegionsAsync(Unity.Services.Relay.RelayAllocations.ListRegionsRequest request, Configuration operationConfiguration = null);
 
     }
 
-    ///<inheritdoc cref="IAllocationsApiClient"/>
-    internal class AllocationsApiClient : BaseApiClient, IAllocationsApiClient
+    ///<inheritdoc cref="IRelayAllocationsApiClient"/>
+    internal class RelayAllocationsApiClient : BaseApiClient, IRelayAllocationsApiClient
     {
         private IAccessToken _accessToken;
         private const int _baseTimeout = 10;
@@ -83,21 +83,18 @@ namespace Unity.Services.Relay.Apis.Allocations
                 // global configuration to ensure we have the correct
                 // combination of headers and a base path (if it is set).
                 Configuration globalConfiguration = new Configuration("https://relay-allocations.services.api.unity.com", 10, 4, null);
-                if (RelayServiceSdk.Instance != null)
-                {
-                    globalConfiguration = RelayServiceSdk.Instance.Configuration;
-                }
                 return Configuration.MergeConfigurations(_configuration, globalConfiguration);
             }
+            set { _configuration = value; }
         }
-        
+
         /// <summary>
-        /// AllocationsApiClient Constructor.
+        /// RelayAllocationsApiClient Constructor.
         /// </summary>
-        /// <param name="httpClient">The HttpClient for AllocationsApiClient.</param>
+        /// <param name="httpClient">The HttpClient for RelayAllocationsApiClient.</param>
         /// <param name="accessToken">The Authentication token for the client.</param>
-        /// <param name="configuration"> AllocationsApiClient Configuration object.</param>
-        public AllocationsApiClient(IHttpClient httpClient,
+        /// <param name="configuration"> RelayAllocationsApiClient Configuration object.</param>
+        public RelayAllocationsApiClient(IHttpClient httpClient,
             IAccessToken accessToken,
             Configuration configuration = null) : base(httpClient)
         {
@@ -111,17 +108,17 @@ namespace Unity.Services.Relay.Apis.Allocations
 
         /// <summary>
         /// Async Operation.
-        /// Create Allocation.
+        /// Create an allocation..
         /// </summary>
         /// <param name="request">Request object for CreateAllocation.</param>
         /// <param name="operationConfiguration">Configuration for CreateAllocation.</param>
         /// <returns>Task for a Response object containing status code, headers, and Models.AllocateResponseBody object.</returns>
         /// <exception cref="Unity.Services.Relay.Http.HttpException">An exception containing the HttpClientResponse with headers, response code, and string of error.</exception>
-        public async Task<Response<Models.AllocateResponseBody>> CreateAllocationAsync(CreateAllocationRequest request,
+        public async Task<Response<Models.AllocateResponseBody>> CreateAllocationAsync(Unity.Services.Relay.RelayAllocations.CreateAllocationRequest request,
             Configuration operationConfiguration = null)
         {
-            var statusCodeToTypeMap = new Dictionary<string, System.Type>() { {"201", typeof(Models.AllocateResponseBody)   },{"400", typeof(Models.ErrorResponseBody)   },{"401", typeof(Models.ErrorResponseBody)   },{"403", typeof(Models.ErrorResponseBody)   },{"500", typeof(Models.ErrorResponseBody)   },{"503", typeof(Models.ErrorResponseBody)   } };
-            
+            var statusCodeToTypeMap = new Dictionary<string, System.Type>() { {"201", typeof(Models.AllocateResponseBody)   },{"400", typeof(Models.ErrorResponseBody)   },{"401", typeof(Models.ErrorResponseBody)   },{"403", typeof(Models.ErrorResponseBody)   },{"429", typeof(Models.ErrorResponseBody)   },{"500", typeof(Models.ErrorResponseBody)   },{"503", typeof(Models.ErrorResponseBody)   } };
+
             // Merge the operation/request level configuration with the client level configuration.
             var finalConfiguration = Configuration.MergeConfigurations(operationConfiguration, Configuration);
 
@@ -138,17 +135,17 @@ namespace Unity.Services.Relay.Apis.Allocations
 
         /// <summary>
         /// Async Operation.
-        /// Create Join Code.
+        /// Create a join code..
         /// </summary>
         /// <param name="request">Request object for CreateJoincode.</param>
         /// <param name="operationConfiguration">Configuration for CreateJoincode.</param>
         /// <returns>Task for a Response object containing status code, headers, and Models.JoinCodeResponseBody object.</returns>
         /// <exception cref="Unity.Services.Relay.Http.HttpException">An exception containing the HttpClientResponse with headers, response code, and string of error.</exception>
-        public async Task<Response<Models.JoinCodeResponseBody>> CreateJoincodeAsync(CreateJoincodeRequest request,
+        public async Task<Response<Models.JoinCodeResponseBody>> CreateJoincodeAsync(Unity.Services.Relay.RelayAllocations.CreateJoincodeRequest request,
             Configuration operationConfiguration = null)
         {
-            var statusCodeToTypeMap = new Dictionary<string, System.Type>() { {"200", typeof(Models.JoinCodeResponseBody)   },{"201", typeof(Models.JoinCodeResponseBody)   },{"400", typeof(Models.ErrorResponseBody)   },{"401", typeof(Models.ErrorResponseBody)   },{"403", typeof(Models.ErrorResponseBody)   },{"500", typeof(Models.ErrorResponseBody)   } };
-            
+            var statusCodeToTypeMap = new Dictionary<string, System.Type>() { {"200", typeof(Models.JoinCodeResponseBody)   },{"201", typeof(Models.JoinCodeResponseBody)   },{"400", typeof(Models.ErrorResponseBody)   },{"401", typeof(Models.ErrorResponseBody)   },{"403", typeof(Models.ErrorResponseBody)   },{"429", typeof(Models.ErrorResponseBody)   },{"500", typeof(Models.ErrorResponseBody)   } };
+
             // Merge the operation/request level configuration with the client level configuration.
             var finalConfiguration = Configuration.MergeConfigurations(operationConfiguration, Configuration);
 
@@ -165,17 +162,17 @@ namespace Unity.Services.Relay.Apis.Allocations
 
         /// <summary>
         /// Async Operation.
-        /// Join Relay.
+        /// Join a Relay server..
         /// </summary>
         /// <param name="request">Request object for JoinRelay.</param>
         /// <param name="operationConfiguration">Configuration for JoinRelay.</param>
         /// <returns>Task for a Response object containing status code, headers, and Models.JoinResponseBody object.</returns>
         /// <exception cref="Unity.Services.Relay.Http.HttpException">An exception containing the HttpClientResponse with headers, response code, and string of error.</exception>
-        public async Task<Response<Models.JoinResponseBody>> JoinRelayAsync(JoinRelayRequest request,
+        public async Task<Response<Models.JoinResponseBody>> JoinRelayAsync(Unity.Services.Relay.RelayAllocations.JoinRelayRequest request,
             Configuration operationConfiguration = null)
         {
-            var statusCodeToTypeMap = new Dictionary<string, System.Type>() { {"200", typeof(Models.JoinResponseBody)   },{"400", typeof(Models.ErrorResponseBody)   },{"401", typeof(Models.ErrorResponseBody)   },{"403", typeof(Models.ErrorResponseBody)   },{"404", typeof(Models.ErrorResponseBody)   },{"500", typeof(Models.ErrorResponseBody)   } };
-            
+            var statusCodeToTypeMap = new Dictionary<string, System.Type>() { {"200", typeof(Models.JoinResponseBody)   },{"400", typeof(Models.ErrorResponseBody)   },{"401", typeof(Models.ErrorResponseBody)   },{"403", typeof(Models.ErrorResponseBody)   },{"404", typeof(Models.ErrorResponseBody)   },{"429", typeof(Models.ErrorResponseBody)   },{"500", typeof(Models.ErrorResponseBody)   } };
+
             // Merge the operation/request level configuration with the client level configuration.
             var finalConfiguration = Configuration.MergeConfigurations(operationConfiguration, Configuration);
 
@@ -192,17 +189,17 @@ namespace Unity.Services.Relay.Apis.Allocations
 
         /// <summary>
         /// Async Operation.
-        /// List relay regions.
+        /// List available Relay regions..
         /// </summary>
         /// <param name="request">Request object for ListRegions.</param>
         /// <param name="operationConfiguration">Configuration for ListRegions.</param>
         /// <returns>Task for a Response object containing status code, headers, and Models.RegionsResponseBody object.</returns>
         /// <exception cref="Unity.Services.Relay.Http.HttpException">An exception containing the HttpClientResponse with headers, response code, and string of error.</exception>
-        public async Task<Response<Models.RegionsResponseBody>> ListRegionsAsync(ListRegionsRequest request,
+        public async Task<Response<Models.RegionsResponseBody>> ListRegionsAsync(Unity.Services.Relay.RelayAllocations.ListRegionsRequest request,
             Configuration operationConfiguration = null)
         {
-            var statusCodeToTypeMap = new Dictionary<string, System.Type>() { {"200", typeof(Models.RegionsResponseBody)   },{"400", typeof(Models.ErrorResponseBody)   },{"401", typeof(Models.ErrorResponseBody)   },{"403", typeof(Models.ErrorResponseBody)   },{"500", typeof(Models.ErrorResponseBody)   } };
-            
+            var statusCodeToTypeMap = new Dictionary<string, System.Type>() { {"200", typeof(Models.RegionsResponseBody)   },{"400", typeof(Models.ErrorResponseBody)   },{"401", typeof(Models.ErrorResponseBody)   },{"403", typeof(Models.ErrorResponseBody)   },{"429", typeof(Models.ErrorResponseBody)   },{"500", typeof(Models.ErrorResponseBody)   } };
+
             // Merge the operation/request level configuration with the client level configuration.
             var finalConfiguration = Configuration.MergeConfigurations(operationConfiguration, Configuration);
 

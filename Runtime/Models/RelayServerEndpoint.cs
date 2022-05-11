@@ -21,28 +21,21 @@ using Unity.Services.Relay.Http;
 namespace Unity.Services.Relay.Models
 {
     /// <summary>
-    /// Endpoint connection details for a relay server
-    /// <param name="connectionType">Canonical connection type: - udp: for plain udp connection - dtls: for secured udp connection</param>
-    /// <param name="network">IP network (currently supported option is udp)</param>
-    /// <param name="reliable">Is the delivery of data guaranteed</param>
-    /// <param name="secure">Is the endpoint secured</param>
-    /// <param name="host">Host name or address of the relay server</param>
-    /// <param name="port">Port number</param>
+    /// The endpoint connection details of a Relay server.
     /// </summary>
-
     [Preserve]
     [DataContract(Name = "RelayServerEndpoint")]
     public class RelayServerEndpoint
     {
         /// <summary>
-        /// Endpoint connection details for a relay server
+        /// The endpoint connection details of a Relay server.
         /// </summary>
-        /// <param name="connectionType">Canonical connection type: - udp: for plain udp connection - dtls: for secured udp connection</param>
-        /// <param name="network">IP network (currently supported option is udp)</param>
-        /// <param name="reliable">Is the delivery of data guaranteed</param>
-        /// <param name="secure">Is the endpoint secured</param>
-        /// <param name="host">Host name or address of the relay server</param>
-        /// <param name="port">Port number</param>
+        /// <param name="connectionType">Canonical connection type: - udp: Use for plain UDP connections. - dtls: Use for secured UDP connections. See [DTLS encryption](https://docs.unity.com/relay/dtls-encryption.html) to learn more.</param>
+        /// <param name="network">The IP network (only for use with UDP).</param>
+        /// <param name="reliable">A boolean value indicating whether the delivery of the data is guaranteed.</param>
+        /// <param name="secure">A boolean value indicating whether the endpoint is secured.</param>
+        /// <param name="host">The host name or IP address of the Relay server.</param>
+        /// <param name="port">The port number of the Relay server.</param>
         [Preserve]
         public RelayServerEndpoint(string connectionType, NetworkOptions network, bool reliable, bool secure, string host, int port)
         {
@@ -55,38 +48,38 @@ namespace Unity.Services.Relay.Models
         }
 
         /// <summary>
-        /// Canonical connection type: - udp: for plain udp connection - dtls: for secured udp connection
+        /// Canonical connection type: - udp: Use for plain UDP connections. - dtls: Use for secured UDP connections. See [DTLS encryption](https://docs.unity.com/relay/dtls-encryption.html) to learn more.
         /// </summary>
         [Preserve]
         [DataMember(Name = "connectionType", IsRequired = true, EmitDefaultValue = true)]
         public string ConnectionType{ get; }
         /// <summary>
-        /// IP network (currently supported option is udp)
+        /// The IP network (only for use with UDP).
         /// </summary>
         [Preserve]
         [JsonConverter(typeof(StringEnumConverter))]
         [DataMember(Name = "network", IsRequired = true, EmitDefaultValue = true)]
         public NetworkOptions Network{ get; }
         /// <summary>
-        /// Is the delivery of data guaranteed
+        /// A boolean value indicating whether the delivery of the data is guaranteed.
         /// </summary>
         [Preserve]
         [DataMember(Name = "reliable", IsRequired = true, EmitDefaultValue = true)]
         public bool Reliable{ get; }
         /// <summary>
-        /// Is the endpoint secured
+        /// A boolean value indicating whether the endpoint is secured.
         /// </summary>
         [Preserve]
         [DataMember(Name = "secure", IsRequired = true, EmitDefaultValue = true)]
         public bool Secure{ get; }
         /// <summary>
-        /// Host name or address of the relay server
+        /// The host name or IP address of the Relay server.
         /// </summary>
         [Preserve]
         [DataMember(Name = "host", IsRequired = true, EmitDefaultValue = true)]
         public string Host{ get; }
         /// <summary>
-        /// Port number
+        /// The port number of the Relay server.
         /// </summary>
         [Preserve]
         [DataMember(Name = "port", IsRequired = true, EmitDefaultValue = true)]
@@ -94,9 +87,9 @@ namespace Unity.Services.Relay.Models
     
 
         /// <summary>
-        /// IP network (currently supported option is udp)
+        /// The IP network (only for use with UDP).
         /// </summary>
-        /// <value>IP network (currently supported option is udp)</value>
+        /// <value>The IP network (only for use with UDP).</value>
         [Preserve]
         [JsonConverter(typeof(StringEnumConverter))]
         public enum NetworkOptions

@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.0.2] - 2022-05-11
+* Updated Relay QoS failure warnings
+* Updated packaged documentation
+
+## [1.0.1] - 2022-05-05
+
+* Update to core and authentication dependencies
+* Replace internal Qos functionality with standalone Qos package, consumed from Core
+* Update samples to use Qos by default
+
 ## [1.0.1-pre.6] - 2022-03-03
 
 * removed Authentication package from dependencies

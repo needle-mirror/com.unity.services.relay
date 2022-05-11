@@ -22,9 +22,7 @@ namespace Unity.Services.Relay.Models
 {
     /// <summary>
     /// RegionsResponseBody model
-    /// <param name="data">data param</param>
     /// </summary>
-
     [Preserve]
     [DataContract(Name = "RegionsResponseBody")]
     public class RegionsResponseBody

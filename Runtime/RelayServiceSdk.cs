@@ -9,7 +9,8 @@
 
 
 using Unity.Services.Authentication.Internal;
-using Unity.Services.Relay.Apis.Allocations;
+using Unity.Services.Qos.Internal;
+using Unity.Services.Relay.Apis.RelayAllocations;
 
 
 namespace Unity.Services.Relay
@@ -30,7 +31,7 @@ namespace Unity.Services.Relay
     {
         
         /// <summary> Accessor for AllocationsApi methods.</summary>
-        IAllocationsApiClient AllocationsApi { get; set; }
+        IRelayAllocationsApiClient AllocationsApi { get; set; }
         
 
         /// <summary> Configuration properties for the service.</summary>
@@ -44,6 +45,6 @@ namespace Unity.Services.Relay
         /// <summary>
         /// Accessor for quality of service.
         /// </summary>
-        IQosService QosService { get; set; }
+        IQosResults QosResults { get; set; }
     }
 }

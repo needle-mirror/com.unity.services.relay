@@ -1,27 +1,23 @@
 {
   "name": "com.unity.services.relay",
   "displayName": "Relay",
-  "version": "1.0.1-pre.6",
+  "version": "1.0.2",
   "unity": "2020.3",
   "_upm": {
-    "gameService": {
-      "genericDashboardUrl": "https://dashboard.unity3d.com/relay",
-      "projectDashboardUrl": "https://dashboard.unity3d.com/organizations/{0}/projects/{1}/relay/about",
-      "projectDashboardUrlType": "OrganizationKeyAndProjectGuid",
-      "useCasesUrl": "https://docs.unity.com/relay/Content/introduction.htm"
-    }
+    "changelog": "* Updated Relay QoS failure warnings\n* Updated packaged documentation"
   },
   "description": "Connect the players of your peer-hosted games with Relay. Your games will also benefit from improved reliability, privacy and the ability to communicate across platforms. To get started, enable listen-server UDP networking for your project on the Unity Dashboard.\n\nFeatures include an allocation service to join game hosts via code, multi-region support, and more.",
   "dependencies": {
-    "com.unity.services.core": "1.2.0",
-    "com.unity.services.authentication": "1.0.0-pre.37",
+    "com.unity.services.core": "1.4.0",
+    "com.unity.services.authentication": "2.0.0",
+    "com.unity.services.qos": "1.0.0",
     "com.unity.modules.unitywebrequest": "1.0.0",
     "com.unity.modules.unitywebrequestassetbundle": "1.0.0",
     "com.unity.modules.unitywebrequestaudio": "1.0.0",
     "com.unity.modules.unitywebrequesttexture": "1.0.0",
     "com.unity.modules.unitywebrequestwww": "1.0.0",
-    "com.unity.nuget.newtonsoft-json": "2.0.0",
-    "com.unity.transport": "1.0.0-pre.10"
+    "com.unity.nuget.newtonsoft-json": "3.0.1",
+    "com.unity.transport": "1.0.0"
   },
   "samples": [
     {
@@ -35,18 +31,15 @@
       "path": "Samples~/InteractiveRelayUtp"
     }
   ],
-  "upm": {
-    "changelog": "* removed Authentication package from dependencies,* Replaced \"Relay\" and \"IRelayServiceSDK\", replaced with \"RelayService\" and \"IRelayService\",* Update com.unity.nuget.newtonsoft-json dependency to 3.0.1"
-  },
   "relatedPackages": {
-    "com.unity.services.relay.tests": "1.0.1-pre.6"
+    "com.unity.services.relay.tests": "1.0.2"
   },
   "upmCi": {
-    "footprint": "09964edd88e0d86726f14fd56bae559897ae85e7"
+    "footprint": "85267d9ce466eefdcf6f8b5d25e6e2e489e1fd81"
   },
   "repository": {
     "url": "https://github.cds.internal.unity3d.com/unity/com.unity.services.relay.git",
     "type": "git",
-    "revision": "49a505a01fcd36591fa5af92af56660aa59d3778"
+    "revision": "b859b51ea7507314ed5f2bba41d5ee69bd2ca12e"
   }
 }

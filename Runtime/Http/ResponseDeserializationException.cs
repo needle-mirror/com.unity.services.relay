@@ -56,6 +56,7 @@ namespace Unity.Services.Relay.Http
 
         /// <summary>Constructor</summary>
         /// <param name="httpClientResponse">The response that triggered the exception.</param>
+        /// <param name="inner">The inner exception.</param>
         /// <param name="message">Custom error message</param>
         public ResponseDeserializationException(HttpClientResponse httpClientResponse, Exception inner, string message) : base(
             message, inner)

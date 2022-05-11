@@ -22,10 +22,7 @@ namespace Unity.Services.Relay.Models
 {
     /// <summary>
     /// KeyValuePair model
-    /// <param name="key">key param</param>
-    /// <param name="value">value param</param>
     /// </summary>
-
     [Preserve]
     [DataContract(Name = "KeyValuePair")]
     public class KeyValuePair

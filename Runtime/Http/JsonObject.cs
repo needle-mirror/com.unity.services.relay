@@ -45,6 +45,10 @@ namespace Unity.Services.Relay.Http
         {
             try
             {
+                if (obj.GetType() == typeof(String))
+                {
+                    return obj.ToString();
+                }
                 return JsonConvert.SerializeObject(obj);
             }
             catch (System.Exception)

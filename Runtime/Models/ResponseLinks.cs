@@ -21,18 +21,16 @@ using Unity.Services.Relay.Http;
 namespace Unity.Services.Relay.Models
 {
     /// <summary>
-    /// Represents links to related API endpoints
-    /// <param name="next">Indicates the URL of the suggest API endpoint to call next</param>
+    /// Represents links to related API endpoints.
     /// </summary>
-
     [Preserve]
     [DataContract(Name = "ResponseLinks")]
     public class ResponseLinks
     {
         /// <summary>
-        /// Represents links to related API endpoints
+        /// Represents links to related API endpoints.
         /// </summary>
-        /// <param name="next">Indicates the URL of the suggest API endpoint to call next</param>
+        /// <param name="next">Indicates the URL of the suggested API endpoint to call next.</param>
         [Preserve]
         public ResponseLinks(string next = default)
         {
@@ -40,7 +38,7 @@ namespace Unity.Services.Relay.Models
         }
 
         /// <summary>
-        /// Indicates the URL of the suggest API endpoint to call next
+        /// Indicates the URL of the suggested API endpoint to call next.
         /// </summary>
         [Preserve]
         [DataMember(Name = "next", EmitDefaultValue = false)]

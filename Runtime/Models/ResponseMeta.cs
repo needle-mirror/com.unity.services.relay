@@ -21,20 +21,17 @@ using Unity.Services.Relay.Http;
 namespace Unity.Services.Relay.Models
 {
     /// <summary>
-    /// Metadata for a response returned from an API call
-    /// <param name="requestId">Unique ID for this request that triggered this response</param>
-    /// <param name="status">Indicates the HTTP status code of the response</param>
+    /// The metadata for the response returned from an API call.
     /// </summary>
-
     [Preserve]
     [DataContract(Name = "ResponseMeta")]
     public class ResponseMeta
     {
         /// <summary>
-        /// Metadata for a response returned from an API call
+        /// The metadata for the response returned from an API call.
         /// </summary>
-        /// <param name="requestId">Unique ID for this request that triggered this response</param>
-        /// <param name="status">Indicates the HTTP status code of the response</param>
+        /// <param name="requestId">The unique ID of the request that triggered this response.</param>
+        /// <param name="status">Indicates the HTTP status code of the response.</param>
         [Preserve]
         public ResponseMeta(string requestId, int status)
         {
@@ -43,13 +40,13 @@ namespace Unity.Services.Relay.Models
         }
 
         /// <summary>
-        /// Unique ID for this request that triggered this response
+        /// The unique ID of the request that triggered this response.
         /// </summary>
         [Preserve]
         [DataMember(Name = "requestId", IsRequired = true, EmitDefaultValue = true)]
         public string RequestId{ get; }
         /// <summary>
-        /// Indicates the HTTP status code of the response
+        /// Indicates the HTTP status code of the response.
         /// </summary>
         [Preserve]
         [DataMember(Name = "status", IsRequired = true, EmitDefaultValue = true)]
