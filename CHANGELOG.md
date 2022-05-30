@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.0.3] - 2022-05-30
+* Update com.unity.nuget.newtonsoft-json dependency to 3.0.2
+* Update com.unity.services.qos dependency to 1.0.1
+
 ## [1.0.2] - 2022-05-11
 * Updated Relay QoS failure warnings
 * Updated packaged documentation
