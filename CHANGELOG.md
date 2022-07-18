@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.0.4] - 2022-07-18
+* Update QoS dependency to 1.0.2
+* Update UTP dependency to 1.1.0
+
 ## [1.0.3] - 2022-05-30
 * Update com.unity.nuget.newtonsoft-json dependency to 3.0.2
 * Update com.unity.services.qos dependency to 1.0.1
