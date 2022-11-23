@@ -10,6 +10,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine.Scripting;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
@@ -45,6 +46,7 @@ namespace Unity.Services.Relay.Models
         [Preserve]
         [DataMember(Name = "id", IsRequired = true, EmitDefaultValue = true)]
         public string Id{ get; }
+        
         /// <summary>
         /// A human-readable description of the region. It can include geographical information such as the city name or country.
         /// </summary>
@@ -52,6 +54,46 @@ namespace Unity.Services.Relay.Models
         [DataMember(Name = "description", IsRequired = true, EmitDefaultValue = true)]
         public string Description{ get; }
     
+        /// <summary>
+        /// Formats a Region into a string of key-value pairs for use as a path parameter.
+        /// </summary>
+        /// <returns>Returns a string representation of the key-value pairs.</returns>
+        internal string SerializeAsPathParam()
+        {
+            var serializedModel = "";
+
+            if (Id != null)
+            {
+                serializedModel += "id," + Id + ",";
+            }
+            if (Description != null)
+            {
+                serializedModel += "description," + Description;
+            }
+            return serializedModel;
+        }
+
+        /// <summary>
+        /// Returns a Region as a dictionary of key-value pairs for use as a query parameter.
+        /// </summary>
+        /// <returns>Returns a dictionary of string key-value pairs.</returns>
+        internal Dictionary<string, string> GetAsQueryParam()
+        {
+            var dictionary = new Dictionary<string, string>();
+
+            if (Id != null)
+            {
+                var idStringValue = Id.ToString();
+                dictionary.Add("id", idStringValue);
+            }
+            
+            if (Description != null)
+            {
+                var descriptionStringValue = Description.ToString();
+                dictionary.Add("description", descriptionStringValue);
+            }
+            
+            return dictionary;
+        }
     }
 }
-

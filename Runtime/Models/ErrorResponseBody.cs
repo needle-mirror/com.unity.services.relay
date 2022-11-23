@@ -10,6 +10,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine.Scripting;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
@@ -53,30 +54,35 @@ namespace Unity.Services.Relay.Models
         [Preserve]
         [DataMember(Name = "status", IsRequired = true, EmitDefaultValue = true)]
         public int Status{ get; }
+        
         /// <summary>
         /// A human-readable explanation specific to this occurrence of the problem.
         /// </summary>
         [Preserve]
         [DataMember(Name = "detail", IsRequired = true, EmitDefaultValue = true)]
         public string Detail{ get; }
+        
         /// <summary>
         /// A short, human-readable summary of the problem type. It SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization (e.g., using proactive content negotiation; see [RFC7231], Section 3.4).
         /// </summary>
         [Preserve]
         [DataMember(Name = "title", IsRequired = true, EmitDefaultValue = true)]
         public string Title{ get; }
+        
         /// <summary>
         /// An array of machine-readable service-specific errors.
         /// </summary>
         [Preserve]
         [DataMember(Name = "details", EmitDefaultValue = false)]
         public List<KeyValuePair> Details{ get; }
+        
         /// <summary>
         /// A URI reference [RFC3986] that identifies the problem type. This specification encourages that, when dereferenced, it provide human-readable documentation for the problem type (e.g., using HTML [W3C.REC-html5-20141028]). When this member is not present, its value is assumed to be \&quot;about:blank\&quot;.
         /// </summary>
         [Preserve]
         [DataMember(Name = "type", IsRequired = true, EmitDefaultValue = true)]
         public string Type{ get; }
+        
         /// <summary>
         /// A service-specific error code.
         /// </summary>
@@ -84,6 +90,68 @@ namespace Unity.Services.Relay.Models
         [DataMember(Name = "code", IsRequired = true, EmitDefaultValue = true)]
         public int Code{ get; }
     
+        /// <summary>
+        /// Formats a ErrorResponseBody into a string of key-value pairs for use as a path parameter.
+        /// </summary>
+        /// <returns>Returns a string representation of the key-value pairs.</returns>
+        internal string SerializeAsPathParam()
+        {
+            var serializedModel = "";
+
+            serializedModel += "status," + Status.ToString() + ",";
+            if (Detail != null)
+            {
+                serializedModel += "detail," + Detail + ",";
+            }
+            if (Title != null)
+            {
+                serializedModel += "title," + Title + ",";
+            }
+            if (Details != null)
+            {
+                serializedModel += "details," + Details.ToString() + ",";
+            }
+            if (Type != null)
+            {
+                serializedModel += "type," + Type + ",";
+            }
+            serializedModel += "code," + Code.ToString();
+            return serializedModel;
+        }
+
+        /// <summary>
+        /// Returns a ErrorResponseBody as a dictionary of key-value pairs for use as a query parameter.
+        /// </summary>
+        /// <returns>Returns a dictionary of string key-value pairs.</returns>
+        internal Dictionary<string, string> GetAsQueryParam()
+        {
+            var dictionary = new Dictionary<string, string>();
+
+            var statusStringValue = Status.ToString();
+            dictionary.Add("status", statusStringValue);
+            
+            if (Detail != null)
+            {
+                var detailStringValue = Detail.ToString();
+                dictionary.Add("detail", detailStringValue);
+            }
+            
+            if (Title != null)
+            {
+                var titleStringValue = Title.ToString();
+                dictionary.Add("title", titleStringValue);
+            }
+            
+            if (Type != null)
+            {
+                var typeStringValue = Type.ToString();
+                dictionary.Add("type", typeStringValue);
+            }
+            
+            var codeStringValue = Code.ToString();
+            dictionary.Add("code", codeStringValue);
+            
+            return dictionary;
+        }
     }
 }
-

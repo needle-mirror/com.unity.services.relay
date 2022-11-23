@@ -7,7 +7,6 @@ using Unity.Services.Core;
 using Unity.Services.Authentication;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 
 /// <summary>
 /// A simple sample showing how to use the Relay Allocation package. As the host, you can authenticate, request a relay allocation, get a join code and join the allocation.
@@ -43,15 +42,15 @@ public class SimpleRelay : MonoBehaviour
     /// </summary>
     public Text PlayerAllocationIdText;
 
-    private Guid hostAllocationId;
-    private Guid playerAllocationId;
-    private string allocationRegion = "";
-    private string joinCode = "n/a";
-    private string playerId = "Not signed in";
-    private string autoSelectRegionName = "auto-select (QoS)";
-    private int RegionAutoSelectIndex = 0;
-    private List<Region> regions = new List<Region>();
-    private List<string> regionOptions = new List<string>();
+    Guid hostAllocationId;
+    Guid playerAllocationId;
+    string allocationRegion = "";
+    string joinCode = "n/a";
+    string playerId = "Not signed in";
+    string autoSelectRegionName = "auto-select (QoS)";
+    int regionAutoSelectIndex = 0;
+    List<Region> regions = new List<Region>();
+    List<string> regionOptions = new List<string>();
 
 
     async void Start()
@@ -66,7 +65,7 @@ public class SimpleRelay : MonoBehaviour
         PlayerIdText.text = playerId;
         RegionsDropdown.interactable = regions.Count > 0;
         RegionsDropdown.options?.Clear();
-        RegionsDropdown.AddOptions(new List<string>{autoSelectRegionName});  // index 0 is always auto-select (use QoS)
+        RegionsDropdown.AddOptions(new List<string> {autoSelectRegionName});  // index 0 is always auto-select (use QoS)
         RegionsDropdown.AddOptions(regionOptions);
         if (!String.IsNullOrEmpty(allocationRegion))
         {
@@ -80,17 +79,16 @@ public class SimpleRelay : MonoBehaviour
         JoinCodeText.text = joinCode;
         PlayerAllocationIdText.text = playerAllocationId.ToString();
     }
-    
+
     /// <summary>
     /// Event handler for when the Sign In button is clicked.
     /// </summary>
     public async void OnSignIn()
     {
-        Debug.Log("Signing On");
-
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
         playerId = AuthenticationService.Instance.PlayerId;
 
+        Debug.Log($"Signed in. Player ID: {playerId}");
         UpdateUI();
     }
 
@@ -121,7 +119,7 @@ public class SimpleRelay : MonoBehaviour
 
         // Determine region to use (user-selected or auto-select/QoS)
         string region = GetRegionOrQosDefault();
-        Debug.Log($"Chosen region is: {region ?? autoSelectRegionName}");
+        Debug.Log($"The chosen region is: {region ?? autoSelectRegionName}");
 
         // Important: Once the allocation is created, you have ten seconds to BIND
         Allocation allocation = await RelayService.Instance.CreateAllocationAsync(4, region);
@@ -133,11 +131,10 @@ public class SimpleRelay : MonoBehaviour
         UpdateUI();
     }
 
-    [CanBeNull]
-    private string GetRegionOrQosDefault()
+    string GetRegionOrQosDefault()
     {
         // Return null (indicating to auto-select the region/QoS) if regions list is empty OR auto-select/QoS is chosen
-        if (!regions.Any() || RegionsDropdown.value == RegionAutoSelectIndex)
+        if (!regions.Any() || RegionsDropdown.value == regionAutoSelectIndex)
         {
             return null;
         }
@@ -170,13 +167,13 @@ public class SimpleRelay : MonoBehaviour
     /// </summary>
     public async void OnJoin()
     {
-        Debug.Log("Client - Joining host allocation using join code.");
+        Debug.Log("Player - Joining host allocation using join code.");
 
         try
         {
             var joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
             playerAllocationId = joinAllocation.AllocationId;
-            Debug.Log("Client Allocation ID: " + playerAllocationId.ToString());
+            Debug.Log("Player Allocation ID: " + playerAllocationId);
         }
         catch (RelayServiceException ex)
         {

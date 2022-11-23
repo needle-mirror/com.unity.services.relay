@@ -10,6 +10,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine.Scripting;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
@@ -44,6 +45,36 @@ namespace Unity.Services.Relay.Models
         [DataMember(Name = "allocationId", IsRequired = true, EmitDefaultValue = true)]
         public System.Guid AllocationId{ get; }
     
+        /// <summary>
+        /// Formats a JoinCodeRequest into a string of key-value pairs for use as a path parameter.
+        /// </summary>
+        /// <returns>Returns a string representation of the key-value pairs.</returns>
+        internal string SerializeAsPathParam()
+        {
+            var serializedModel = "";
+
+            if (AllocationId != null)
+            {
+                serializedModel += "allocationId," + AllocationId;
+            }
+            return serializedModel;
+        }
+
+        /// <summary>
+        /// Returns a JoinCodeRequest as a dictionary of key-value pairs for use as a query parameter.
+        /// </summary>
+        /// <returns>Returns a dictionary of string key-value pairs.</returns>
+        internal Dictionary<string, string> GetAsQueryParam()
+        {
+            var dictionary = new Dictionary<string, string>();
+
+            if (AllocationId != null)
+            {
+                var allocationIdStringValue = AllocationId.ToString();
+                dictionary.Add("allocationId", allocationIdStringValue);
+            }
+            
+            return dictionary;
+        }
     }
 }
-

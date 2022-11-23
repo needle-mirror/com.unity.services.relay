@@ -32,7 +32,7 @@ namespace Unity.Services.Relay.RelayAllocations
 
         public static string SerializeToString<T>(T obj)
         {
-            return JsonConvert.SerializeObject(obj);
+            return JsonConvert.SerializeObject(obj, new JsonSerializerSettings{ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore});
         }
     }
 
@@ -91,6 +91,25 @@ namespace Unity.Services.Relay.RelayAllocations
                 }
                 paramString = paramString.Remove(paramString.Length - 1);
                 queryParams.Add(paramString);
+            }
+
+            return queryParams;
+        }
+
+        /// <summary>
+        /// Helper function to add a provided map of keys and values, representing a model, to the
+        /// provided query params.
+        /// </summary>
+        /// <param name="queryParams">A `List/<string/>` of the query parameters.</param>
+        /// <param name="modelVars">A `Dictionary` representing the vars of the model</param>
+        /// <returns>Returns a `List/<string/>`</returns>
+        [Preserve]
+        public List<string> AddParamsToQueryParams(List<string> queryParams, Dictionary<string, string> modelVars)
+        {
+            foreach(var key in modelVars.Keys)
+            {
+                string escapedValue = UnityWebRequest.EscapeURL(modelVars[key]);
+                queryParams.Add($"{UnityWebRequest.EscapeURL(key)}={escapedValue}");
             }
 
             return queryParams;
@@ -259,7 +278,6 @@ namespace Unity.Services.Relay.RelayAllocations
         /// <summary>Accessor for allocationRequest </summary>
         [Preserve]
         public Unity.Services.Relay.Models.AllocationRequest AllocationRequest { get; }
-        
         string PathAndQueryParams;
 
         /// <summary>
@@ -271,16 +289,9 @@ namespace Unity.Services.Relay.RelayAllocations
         public CreateAllocationRequest(Unity.Services.Relay.Models.AllocationRequest allocationRequest)
         {
             AllocationRequest = allocationRequest;
-            
-
             PathAndQueryParams = $"/v1/allocate";
 
-            List<string> queryParams = new List<string>();
 
-            if (queryParams.Count > 0)
-            {
-                PathAndQueryParams = $"{PathAndQueryParams}?{string.Join("&", queryParams)}";
-            }
         }
 
         /// <summary>
@@ -371,7 +382,6 @@ namespace Unity.Services.Relay.RelayAllocations
         /// <summary>Accessor for joinCodeRequest </summary>
         [Preserve]
         public Unity.Services.Relay.Models.JoinCodeRequest JoinCodeRequest { get; }
-        
         string PathAndQueryParams;
 
         /// <summary>
@@ -383,16 +393,9 @@ namespace Unity.Services.Relay.RelayAllocations
         public CreateJoincodeRequest(Unity.Services.Relay.Models.JoinCodeRequest joinCodeRequest)
         {
             JoinCodeRequest = joinCodeRequest;
-            
-
             PathAndQueryParams = $"/v1/joincode";
 
-            List<string> queryParams = new List<string>();
 
-            if (queryParams.Count > 0)
-            {
-                PathAndQueryParams = $"{PathAndQueryParams}?{string.Join("&", queryParams)}";
-            }
         }
 
         /// <summary>
@@ -483,7 +486,6 @@ namespace Unity.Services.Relay.RelayAllocations
         /// <summary>Accessor for joinRequest </summary>
         [Preserve]
         public Unity.Services.Relay.Models.JoinRequest JoinRequest { get; }
-        
         string PathAndQueryParams;
 
         /// <summary>
@@ -495,16 +497,9 @@ namespace Unity.Services.Relay.RelayAllocations
         public JoinRelayRequest(Unity.Services.Relay.Models.JoinRequest joinRequest)
         {
             JoinRequest = joinRequest;
-            
-
             PathAndQueryParams = $"/v1/join";
 
-            List<string> queryParams = new List<string>();
 
-            if (queryParams.Count > 0)
-            {
-                PathAndQueryParams = $"{PathAndQueryParams}?{string.Join("&", queryParams)}";
-            }
         }
 
         /// <summary>
@@ -601,16 +596,9 @@ namespace Unity.Services.Relay.RelayAllocations
         [Preserve]
         public ListRegionsRequest()
         {
-
-
             PathAndQueryParams = $"/v1/regions";
 
-            List<string> queryParams = new List<string>();
 
-            if (queryParams.Count > 0)
-            {
-                PathAndQueryParams = $"{PathAndQueryParams}?{string.Join("&", queryParams)}";
-            }
         }
 
         /// <summary>

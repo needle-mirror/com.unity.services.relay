@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.5] - 2022-11-23
+* Update "SimpleRelay" sample
+* Replaced "InteractiveRelayUtp" sample with "SimpleRelayUtp"
+* Update QoS dependency to 1.1.0
+* Update UTP dependency to 1.3.0
+* Generated the latest version of the API client
+
 ## [1.0.4] - 2022-07-18
 * Update QoS dependency to 1.0.2
 * Update UTP dependency to 1.1.0

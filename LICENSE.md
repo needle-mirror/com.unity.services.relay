@@ -1,4 +1,4 @@
-Unity Relay SDK copyright © 2021 Unity Technologies.
+Unity Relay SDK copyright © 2022 Unity Technologies.
 
 This software is subject to, and made available under, the terms of service for Unity Relay (see https://unity3d.com/legal/one-operate-services-terms-of-service), and is an “Operate Service” as defined therein.
 

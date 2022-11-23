@@ -10,6 +10,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine.Scripting;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
@@ -45,6 +46,7 @@ namespace Unity.Services.Relay.Models
         [Preserve]
         [DataMember(Name = "maxConnections", IsRequired = true, EmitDefaultValue = true)]
         public int MaxConnections{ get; }
+        
         /// <summary>
         /// The region in which to create this allocation.  Get a list of supported values from the &#x60;/regions&#x60; endpoint or omit this parameter to use the default region.
         /// </summary>
@@ -52,6 +54,40 @@ namespace Unity.Services.Relay.Models
         [DataMember(Name = "region", EmitDefaultValue = false)]
         public string Region{ get; }
     
+        /// <summary>
+        /// Formats a AllocationRequest into a string of key-value pairs for use as a path parameter.
+        /// </summary>
+        /// <returns>Returns a string representation of the key-value pairs.</returns>
+        internal string SerializeAsPathParam()
+        {
+            var serializedModel = "";
+
+            serializedModel += "maxConnections," + MaxConnections.ToString() + ",";
+            if (Region != null)
+            {
+                serializedModel += "region," + Region;
+            }
+            return serializedModel;
+        }
+
+        /// <summary>
+        /// Returns a AllocationRequest as a dictionary of key-value pairs for use as a query parameter.
+        /// </summary>
+        /// <returns>Returns a dictionary of string key-value pairs.</returns>
+        internal Dictionary<string, string> GetAsQueryParam()
+        {
+            var dictionary = new Dictionary<string, string>();
+
+            var maxConnectionsStringValue = MaxConnections.ToString();
+            dictionary.Add("maxConnections", maxConnectionsStringValue);
+            
+            if (Region != null)
+            {
+                var regionStringValue = Region.ToString();
+                dictionary.Add("region", regionStringValue);
+            }
+            
+            return dictionary;
+        }
     }
 }
-
