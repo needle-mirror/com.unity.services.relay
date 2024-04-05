@@ -87,6 +87,7 @@ namespace Unity.Services.Relay
 
     public class RelayServiceException : Unity.Services.Core.RequestFailedException
     {
+        public Models.ErrorResponseBody ApiError { get; }
         public RelayExceptionReason Reason { get; }
         public RelayServiceException(System.Exception innerException) {}
         public RelayServiceException(long errorCode, string message) {}
@@ -99,7 +100,7 @@ namespace Unity.Services.Relay.Http
 {
     public class DeserializationSettings
     {
-        public MissingMemberHandling MissingMemberHandling;
+        public MissingMemberHandling MissingMemberHandling = MissingMemberHandling.Error;
         public DeserializationSettings() {}
     }
 
@@ -255,6 +256,9 @@ namespace Unity.Services.Relay.Models
 
     [System.Runtime.Serialization.DataContract(Name = @"RelayServerEndpoint")] [UnityEngine.Scripting.Preserve] public class RelayServerEndpoint
     {
+        public const string ConnectionTypeDtls = @"dtls";
+        public const string ConnectionTypeUdp = @"udp";
+        public const string ConnectionTypeWss = @"wss";
         [System.Runtime.Serialization.DataMember(EmitDefaultValue = true, IsRequired = true, Name = @"connectionType")] [UnityEngine.Scripting.Preserve] public string ConnectionType { get; }
         [System.Runtime.Serialization.DataMember(EmitDefaultValue = true, IsRequired = true, Name = @"host")] [UnityEngine.Scripting.Preserve] public string Host { get; }
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))] [System.Runtime.Serialization.DataMember(EmitDefaultValue = true, IsRequired = true, Name = @"network")] [UnityEngine.Scripting.Preserve] public RelayServerEndpoint.NetworkOptions Network { get; }

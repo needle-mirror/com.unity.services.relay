@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using Unity.Services.Relay.Http;
 using Unity.Services.Relay.Models;
+using KeyValuePair = Unity.Services.Relay.Models.KeyValuePair;
 
 namespace Unity.Services.Relay
 {
@@ -33,7 +35,7 @@ namespace Unity.Services.Relay
             {
                 //As we know it's a http error (error range 0-1000), we bump it to our mapped range
                 int mappedCode = (int)error.StatusCode + (int)RelayExceptionReason.Min;
-                if (Enum.IsDefined(typeof(RelayExceptionReason), mappedCode)) 
+                if (Enum.IsDefined(typeof(RelayExceptionReason), mappedCode))
                 {
                     reason = (RelayExceptionReason)mappedCode;
                 }
@@ -48,7 +50,13 @@ namespace Unity.Services.Relay
 
         public static string GetExceptionMessage(this ErrorResponseBody error)
         {
-            return $"{error.Title}: {error?.Detail}";
+            string message = $"{error.Title}: {error.Detail}";
+            foreach (KeyValuePair kvp in error.Details ?? new List<KeyValuePair>())
+            {
+                message += $"\n{kvp.Key}: {kvp.Value}";
+            }
+
+            return message;
         }
     }
 }

@@ -1,5 +1,7 @@
-﻿using System;
+using System;
 using Unity.Services.Core;
+using Unity.Services.Relay.Http;
+using Unity.Services.Relay.Models;
 
 namespace Unity.Services.Relay
 {
@@ -12,6 +14,18 @@ namespace Unity.Services.Relay
         /// The reason of the exception.
         /// </summary>
         public RelayExceptionReason Reason { get; private set; }
+
+        /// <summary>
+        /// If applicable, the specific details of the API error that caused the exception.
+        /// </summary>
+        public ErrorResponseBody ApiError
+        {
+            get
+            {
+                HttpException<ErrorResponseBody> apiException = InnerException as HttpException<ErrorResponseBody>;
+                return apiException?.ActualError;
+            }
+        }
 
         /// <summary>
         /// Creates a RelayServiceException.

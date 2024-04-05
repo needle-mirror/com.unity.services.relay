@@ -144,7 +144,7 @@ namespace Unity.Services.Relay.Apis.RelayAllocations
         public async Task<Response<Models.JoinCodeResponseBody>> CreateJoincodeAsync(Unity.Services.Relay.RelayAllocations.CreateJoincodeRequest request,
             Configuration operationConfiguration = null)
         {
-            var statusCodeToTypeMap = new Dictionary<string, System.Type>() { {"200", typeof(Models.JoinCodeResponseBody)   },{"201", typeof(Models.JoinCodeResponseBody)   },{"400", typeof(Models.ErrorResponseBody)   },{"401", typeof(Models.ErrorResponseBody)   },{"403", typeof(Models.ErrorResponseBody)   },{"429", typeof(Models.ErrorResponseBody)   },{"500", typeof(Models.ErrorResponseBody)   } };
+            var statusCodeToTypeMap = new Dictionary<string, System.Type>() { {"200", typeof(Models.JoinCodeResponseBody)   },{"201", typeof(Models.JoinCodeResponseBody)   },{"400", typeof(Models.ErrorResponseBody)   },{"401", typeof(Models.ErrorResponseBody)   },{"403", typeof(Models.ErrorResponseBody)   },{"404", typeof(Models.ErrorResponseBody)   },{"429", typeof(Models.ErrorResponseBody)   },{"500", typeof(Models.ErrorResponseBody)   } };
 
             // Merge the operation/request level configuration with the client level configuration.
             var finalConfiguration = Configuration.MergeConfigurations(operationConfiguration, Configuration);

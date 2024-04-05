@@ -49,6 +49,21 @@ namespace Unity.Services.Relay.Models
         }
 
         /// <summary>
+        /// Valid value of ConnectionType for udp
+        /// </summary>
+        public const string ConnectionTypeUdp = "udp";
+
+        /// <summary>
+        /// Valid value of ConnectionType for dtls
+        /// </summary>
+        public const string ConnectionTypeDtls = "dtls";
+
+        /// <summary>
+        /// Valid value of ConnectionType for wss
+        /// </summary>
+        public const string ConnectionTypeWss = "wss";
+
+        /// <summary>
         /// Canonical connection type: - udp: Use for plain UDP connections. - dtls: Use for secured UDP connections. See [DTLS encryption](https://docs.unity.com/relay/dtls-encryption.html) to learn more. - wss: Use for secured WebSocket connections.
         /// </summary>
         [Preserve]

@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.0] - 2024-04-05
+* Generated the latest version of the API client with new constants for ConnectionType
+* Update QoS dependency to 1.3.0
+* Generate the latest version of the API client with new return code
+* Update License
+* Update Core dependency to 1.12.4
+* Change error handling to expose API errors
+
 ## [1.0.5] - 2022-11-23
 * Update "SimpleRelay" sample
 * Replaced "InteractiveRelayUtp" sample with "SimpleRelayUtp"
