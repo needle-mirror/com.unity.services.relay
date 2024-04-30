@@ -1,11 +1,17 @@
 # Changelog
 
-## [1.1.0] - 2024-04-05
+## [1.1.1] - 2024-04-30
+* Added apple privacy manifest
+* Updated com.unity.services.core to 1.12.5
+* Updated com.unity.services.authentication to 2.7.4
+* Updated com.unity.services.qos to 1.3.2
+
+## [1.1.0] - 2023-04-17
 * Generated the latest version of the API client with new constants for ConnectionType
-* Update QoS dependency to 1.3.0
+* Update QoS dependency to 1.2.0
 * Generate the latest version of the API client with new return code
 * Update License
-* Update Core dependency to 1.12.4
+* Update Core dependency to 1.8.1
 * Change error handling to expose API errors
 
 ## [1.0.5] - 2022-11-23

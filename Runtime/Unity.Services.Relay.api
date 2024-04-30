@@ -100,7 +100,7 @@ namespace Unity.Services.Relay.Http
 {
     public class DeserializationSettings
     {
-        public MissingMemberHandling MissingMemberHandling = MissingMemberHandling.Error;
+        public MissingMemberHandling MissingMemberHandling;
         public DeserializationSettings() {}
     }
 
