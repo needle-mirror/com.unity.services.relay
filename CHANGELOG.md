@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.0] - 2025-02-13
+
+### Added
+- Added migration path validation to warn users when they are using incompatible packages.
+
+### Changed
+* Updated the minimum supported Editor version to 2021.3.
+
 ## [1.1.1] - 2024-04-30
 * Added apple privacy manifest
 * Updated com.unity.services.core to 1.12.5
